@@ -49,9 +49,9 @@ public class Map {
         Object[][] map = new Object[lines.get(0).length()][lines.size()];
         boolean playerPlaced = false;
         while (!playerPlaced) {//if player wasn't placed after first attempt to generate map, retry!
-            for (int i = 0; i < lines.size(); i++) {
-                for (int j = 0; j < lines.get(0).length(); j++) {
-                    char c = lines.get(i).charAt(j);
+            for (int i = 0; i < lines.get(0).length(); i++) {
+                for (int j = 0; j < lines.size(); j++) {
+                    char c = lines.get(j).charAt(i);
                     Object object = c;
                     if (c == '0') {
                         object = 0;
@@ -80,7 +80,7 @@ public class Map {
                     }else if(c == '1'){
                         object = 1;
                     }
-                    map[j][i] = object;
+                    map[i][j] = object;
                 }
             }
         }
@@ -108,7 +108,7 @@ public class Map {
      * @return object if valid point, -1 if not
      */
     public Object fetchAt(Point p){
-        if (p.x >= 0 && p.x <= (Map.length -1) && p.y >= 0 && p.y <= (Map[0].length)) {
+        if (p.x >= 0 && p.x <= (Map.length -1) && p.y >= 0 && p.y <= (Map[0].length -1)) {
             if (Map[p.x][p.y] != null) {
                 return Map[p.x][p.y];
             } else {

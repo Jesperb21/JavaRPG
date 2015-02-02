@@ -54,6 +54,7 @@ public class Map {
                     char c = lines.get(i).charAt(j);
                     Object object = c;
                     if (c == '0') {
+                        object = 0;
                         if (!playerPlaced && random.nextDouble() < 0.1){//only place a player if it hasnt been placed already
                             Player p = new Player();
                             Characters.add(p);
@@ -76,6 +77,8 @@ public class Map {
                             Characters.add(character);
                             object = character;
                         }
+                    }else if(c == '1'){
+                        object = 1;
                     }
                     map[i][j] = object;
                 }

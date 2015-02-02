@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Random;
 
-/**
- * Created by DBJ on 02-02-2015.
- */
 public final class Console {
 
     /**
@@ -28,7 +25,7 @@ public final class Console {
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
             //  Handle any exceptions.
         }
     }

@@ -150,7 +150,7 @@ public class MainGameLoop {
                     else if (Response.equals("left") || Response.equals("l")){
                         return MoveDir.Left;
                     }
-                    else if (Response.equals("right")|| Response.equals('r')){
+                    else if (Response.equals("right")|| Response.equals("r")){
                         return MoveDir.Right;
                     }
                 }

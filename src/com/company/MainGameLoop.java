@@ -36,7 +36,7 @@ public class MainGameLoop {
      */
     private static void TurnLoop(){
         for(Character charector: GameMap.Characters){
-            Point ChaPos = GameMap.WhereIs(charector);
+            Point ChaPos = GameMap.whereIs(charector);
             //region Bot
             if (charector instanceof Monster) {
                 //region Bot Move
@@ -49,35 +49,27 @@ public class MainGameLoop {
                     } while (dir.contains(def));
                     dir.add(def);
 
+                    Point newPos;
                     switch (def){
                         case Up:
-                            if (GameMap.fetchAt(new Point(ChaPos.x,ChaPos.y-1)) == 0){
-                                GameMap.Map[ChaPos.x][ChaPos.y] = 0;
-                                GameMap.Map[ChaPos.x][ChaPos.y-1] = charector;
-                                move = false;
-                            }
+                            newPos = new Point(ChaPos.x,ChaPos.y-1);
                             break;
                         case Down:
-                            if (GameMap.fetchAt(new Point(ChaPos.x,ChaPos.y+1)) == 0){
-                                GameMap.Map[ChaPos.x][ChaPos.y] = 0;
-                                GameMap.Map[ChaPos.x][ChaPos.y+1] = charector;
-                                move = false;
-                            }
+                            newPos = new Point(ChaPos.x,ChaPos.y+1);
                             break;
                         case Left:
-                            if (GameMap.fetchAt(new Point(ChaPos.x-1,ChaPos.y)) == 0){
-                                GameMap.Map[ChaPos.x][ChaPos.y] = 0;
-                                GameMap.Map[ChaPos.x-1][ChaPos.y] = charector;
-                                move = false;
-                            }
+                            newPos = new Point(ChaPos.x-1,ChaPos.y);
                             break;
                         case Right:
-                            if (GameMap.fetchAt(new Pos(ChaPos.x+1,ChaPos.y)) == 0){
-                                GameMap.Map[ChaPos.x][ChaPos.y] = 0;
-                                GameMap.Map[ChaPos.x+1][ChaPos.y] = charector;
-                                move = false;
-                            }
+                            newPos = new Point(ChaPos.x+1,ChaPos.y);
                             break;
+                    }
+                    if (GameMap.fetchAt(newPos) instanceof Integer){
+                        if ((Integer)GameMap.fetchAt(newPos) == 0){
+                            GameMap.Map[ChaPos.x][ChaPos.y] = 0;
+                            GameMap.Map[newPos.x][newPos.y] = charector;
+                            move = false;
+                        }
                     }
                 }
                 //endregion

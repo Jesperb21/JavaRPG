@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.List;
 
 public class Map {
-    public List<Character> Characters;
+    public List<Character> Characters = new ArrayList<Character>();
     public Object[][] Map;
     private String _defaultMapPath = "src/com/company/maps/";
     private double _enemySpawnChance = 0.2;
@@ -53,18 +53,18 @@ public class Map {
                 for (int j = 0; j < lines.get(0).length(); j++) {
                     char c = lines.get(i).charAt(j);
                     Object object = c;
-                    if (c == 0) {
-                        if (!playerPlaced && random.nextDouble() > 0.1){//only place a player if it hasnt been placed already
+                    if (c == '0') {
+                        if (!playerPlaced && random.nextDouble() < 0.1){//only place a player if it hasnt been placed already
                             Player p = new Player();
                             Characters.add(p);
                             object = p;
 
                             playerPlaced = true;
-                        }else if (random.nextDouble() > _enemySpawnChance) {//you cannot place an enemy on the same spot as a player
+                        }else if (random.nextDouble() < _enemySpawnChance) {//you cannot place an enemy on the same spot as a player
                             Class<?> r;
                             Character character = null;
                             try {
-                                r = Class.forName(String.valueOf(Monsters.get(random.nextInt(Monsters.values().length))));
+                                r = Class.forName("com.company.MonsterTypes."+String.valueOf(Monsters.get(random.nextInt(Monsters.values().length))));
                                 character = (Character) r.newInstance();
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
@@ -105,8 +105,12 @@ public class Map {
      * @return object if valid point, -1 if not
      */
     public Object fetchAt(Point p){
-        if(Map[p.x][p.y] != null) {
-            return Map[p.x][p.y];
+        if (p.x >= 0 && p.x <= (Map.length -1) && p.y >= 0 && p.y <= (Map[0].length)) {
+            if (Map[p.x][p.y] != null) {
+                return Map[p.x][p.y];
+            } else {
+                return -1;
+            }
         }else {
             return -1;
         }

@@ -46,7 +46,7 @@ public class Map {
             e.printStackTrace();
         }
 
-        Object[][] map = new Object[lines.size()][lines.get(0).length()];
+        Object[][] map = new Object[lines.get(0).length()][lines.size()];
         boolean playerPlaced = false;
         while (!playerPlaced) {//if player wasn't placed after first attempt to generate map, retry!
             for (int i = 0; i < lines.size(); i++) {
@@ -80,7 +80,7 @@ public class Map {
                     }else if(c == '1'){
                         object = 1;
                     }
-                    map[i][j] = object;
+                    map[j][i] = object;
                 }
             }
         }

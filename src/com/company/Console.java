@@ -36,14 +36,15 @@ public final class Console {
     /**
      * Write Message in console
      * @param msg The message to be shown
-     * @param clear Shall the console be cleared before message shows
+     * @param Wait Shall the console Wait for user to respond.
      */
-    public final static void Msg(String msg, boolean clear)
+    public final static void Msg(String msg, boolean Wait)
     {
-        if (clear){
-            Console.Clear();
-        }
         System.out.println(msg);
+        if (Wait){
+            System.out.println("Please press 'enter' to continue");
+            Console.readLine();
+        }
     }
 
     private static Random ran = new Random();

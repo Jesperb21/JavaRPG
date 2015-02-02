@@ -46,10 +46,10 @@ public class MainGameLoop {
                     MoveDir def;
                     do {
                         def = MoveDir.get(Console.RandomInt(0, 4));
-                    } while (dir.contains(def));
+                    } while (dir.contains(def) || dir.toArray().length <= 4);
                     dir.add(def);
 
-                    Point newPos;
+                    Point newPos = null;
                     switch (def){
                         case Up:
                             newPos = new Point(ChaPos.x,ChaPos.y-1);
@@ -76,11 +76,10 @@ public class MainGameLoop {
             }
             //endregion
             else if (charector instanceof Player){
-                boolean combat = false;
                 do{
                     Object respons = Interact(Dialog.Move);
                     if (respons instanceof MoveDir){
-                        Point newPos;
+                        Point newPos = null;
                         switch ((MoveDir)respons){
                             case Up:
                                 newPos = new Point(ChaPos.x,ChaPos.y-1);
@@ -99,7 +98,7 @@ public class MainGameLoop {
                         if (checkPos instanceof Integer){
                             if ((Integer)checkPos == 0){
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
-                                GameMap.Map[ChaPos.x+1][ChaPos.y] = charector;
+                                GameMap.Map[newPos.x][newPos.y] = charector;
                                 break;
                             }
                             else if ((Integer)checkPos == 1 ||(Integer)checkPos == -1){
@@ -107,17 +106,41 @@ public class MainGameLoop {
                             }
                         }
                         else if (checkPos instanceof Monster){
-
+                            boolean fightResult = CombatLoop((Player)charector, (Monster)checkPos);
+                            if (fightResult){
+                                Console.Msg("Hurray, you have defeated a monster",true);
+                                GameMap.Map[ChaPos.x][ChaPos.y] = 0;
+                                GameMap.Map[newPos.x][newPos.y] = charector;
+                            }
+                            else {
+                                Console.Msg("Sorry, but you have been defeated.",true);
+                            }
                         }
                     }
                 }while(true);
             }
-            //else if (Win){
-                //type hura....
-            //}
         }
     }
-    private boolean CombatLoop(){
+
+    /**
+     * Active Combat loop
+     * @param player the fighting player
+     * @param monster the fighting monset
+     * @return Returns true if player wins the fight
+     */
+    private static boolean CombatLoop(Player player, Monster monster){
+        while (player.entity.CurrentHealth > 0){
+            int damage = player.Attack();
+            monster.entity.TakeDamage(damage);
+            if (monster.entity.CurrentHealth <= 0){
+                monster.Die();
+                return true;
+            }
+            else {
+                damage = monster.Attack();
+                player.entity.TakeDamage(damage);
+            }
+        }
         return false;
     }
 
@@ -139,7 +162,7 @@ public class MainGameLoop {
                 break;
             case Move:
                 while(true){
-                    Console.Msg("Where do you want to go.",true);
+                    Console.Msg("Where do you want to go.",false);
                     String Response = Console.readLine().toLowerCase();
                     if (Response.equals("up") || Response.equals("u")){
                         return MoveDir.Up;
@@ -155,9 +178,9 @@ public class MainGameLoop {
                     }
                 }
             case Wellcome:
-                Console.Msg("Hello and welcome to the Java Rpg,",true);
+                Console.Msg("Hello and welcome to the Java Rpg,",false);
                 Console.Msg("also known as, The Tower Of Doom.",false);
-                Console.Msg("Created by Jesper Baunsgaard and Daniel Jensen",false);
+                Console.Msg("Created by Jesper Baunsgaard and Daniel Jensen",true);
                 break;
         }
         return "";

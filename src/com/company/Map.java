@@ -11,7 +11,7 @@ import java.util.List;
 public class Map {
     public List<Character> Characters;
     public Object[][] Map;
-    private String _defaultMapPath = "./maps/";
+    private String _defaultMapPath = "src/com/company/maps/";
     private double _enemySpawnChance = 0.2;
 
     public Map(){
@@ -32,6 +32,7 @@ public class Map {
             }
         });
         Random random = new Random();
+
         File mapFile = ListOfFiles[random.nextInt(ListOfFiles.length)];
 
         List<String> lines = new ArrayList<String>();

@@ -1,7 +1,5 @@
 package com.company;
 
-import com.company.MonsterTypes.Mage;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -49,7 +47,7 @@ public class MainGameLoop {
                     } while (dir.contains(def));
                     dir.add(def);
 
-                    Point newPos;
+                    Point newPos= null;
                     switch (def){
                         case Up:
                             newPos = new Point(ChaPos.x,ChaPos.y-1);
@@ -80,7 +78,7 @@ public class MainGameLoop {
                 do{
                     Object respons = Interact(Dialog.Move);
                     if (respons instanceof MoveDir){
-                        Point newPos;
+                        Point newPos = null;
                         switch ((MoveDir)respons){
                             case Up:
                                 newPos = new Point(ChaPos.x,ChaPos.y-1);

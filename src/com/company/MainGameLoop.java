@@ -44,9 +44,13 @@ public class MainGameLoop {
                 ArrayList<MoveDir> dir = new ArrayList<MoveDir>();
                 while (move){
                     MoveDir def;
+                    if (dir.toArray().length >= 4){
+                        move = false;
+                        break;
+                    }
                     do {
                         def = MoveDir.get(Console.RandomInt(0, 4));
-                    } while (dir.contains(def) || dir.toArray().length <= 4);
+                    } while (dir.contains(def));
                     dir.add(def);
 
                     Point newPos = null;
@@ -64,8 +68,9 @@ public class MainGameLoop {
                             newPos = new Point(ChaPos.x+1,ChaPos.y);
                             break;
                     }
-                    if (GameMap.fetchAt(newPos) instanceof Integer){
-                        if ((Integer)GameMap.fetchAt(newPos) == 0){
+                    Object point = GameMap.fetchAt(newPos);
+                    if (point instanceof Integer){
+                        if ((Integer)point == 0){
                             GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                             GameMap.Map[newPos.x][newPos.y] = charector;
                             move = false;
@@ -129,6 +134,8 @@ public class MainGameLoop {
      * @return Returns true if player wins the fight
      */
     private static boolean CombatLoop(Player player, Monster monster){
+        return false;
+        /*
         while (player.entity.CurrentHealth > 0){
             int damage = player.Attack();
             monster.entity.TakeDamage(damage);
@@ -141,7 +148,7 @@ public class MainGameLoop {
                 player.entity.TakeDamage(damage);
             }
         }
-        return false;
+        return false;*/
     }
 
 
@@ -173,7 +180,7 @@ public class MainGameLoop {
                     else if (Response.equals("left") || Response.equals("l")){
                         return MoveDir.Left;
                     }
-                    else if (Response.equals("right")|| Response.equals('r')){
+                    else if (Response.equals("right")|| Response.equals("r")){
                         return MoveDir.Right;
                     }
                 }

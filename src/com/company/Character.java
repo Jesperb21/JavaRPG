@@ -77,4 +77,7 @@ public abstract class Character implements ICharacter{
         CurrentHealth += (Maxhealth/100)*Healvalue;
         if (CurrentHealth > Maxhealth) CurrentHealth = Maxhealth;
     }
+    public int randomDamage(int dmg){
+        return (int)Console.RandomDouble((dmg*0.75), dmg);
+    }
 }

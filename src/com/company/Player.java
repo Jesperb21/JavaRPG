@@ -11,25 +11,26 @@ public class Player extends Character implements IUser{
         int Damage = 0;
         switch ((Integer)UserChoose){
             case 1:
-                Damage = MeleeAtt();
+                Damage = randomDamage(MeleeAtt());
                 Console.Msg("You used Melee and dealt " + Damage + " Damage",false);
                 break;
             case 2:
-                Damage = RangedAtt();
+                Damage = randomDamage(RangedAtt());
                 Console.Msg("You used Ranged and dealt " + Damage + " Damage",false);
                 break;
             case 3:
-                Damage = MagicAtt();
+                Damage = randomDamage(MagicAtt());
                 Console.Msg("You used Magic and dealt " + Damage + " Damage",false);
                 break;
             case 4:
                 //Healing
                 /*(L * 10) * ?>0(1. 1I)
                 */
-                int Healing = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
-
+                int Healing = (int)Math.round((Level * 10) * (1 + (0.22 * Intelligence)));
+                Healing = randomDamage(Healing);
                 Console.Msg("You used Heal and Healed you self with " + Healing + "%",false);
                 Heal(Healing);
+                Console.Msg("You now have " + CurrentHealth + " hp.",false);
                 Damage = 0;
                 break;
         }

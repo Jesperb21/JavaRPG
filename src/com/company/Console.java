@@ -56,6 +56,17 @@ public final class Console {
     }
 
     /**
+     * generate a random double between between a min and a max
+     * @param min minimum value
+     * @param max maximum value
+     * @return returns a random value
+     */
+    public final static double RandomDouble(double min, double max){
+        return min + (ran.nextDouble()*(max-min));
+    }
+
+
+    /**
      * Read Console line
      * @return a string with user response.
      */

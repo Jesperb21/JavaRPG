@@ -8,7 +8,7 @@ public abstract class Monster  extends Character{
     public abstract void failAttack();
 }
 enum Monsters {
-    Mage, SkeletonArcher, Slime, Zombie;
+    Zombie;
 
     public static Monsters get(int i) {
         return values()[i];

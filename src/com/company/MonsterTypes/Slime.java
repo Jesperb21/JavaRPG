@@ -8,16 +8,19 @@ public class Slime extends Monster{
     public int Attack() {
         int Damage = 0;
 
-        int ran = Console.RandomInt(1, 6);
+        int ran = Console.RandomInt(1, 5);
+        /**
+         * the random is noticeably less likely to pick the start and the ending value, so those result in a failAttack()
+         */
         switch (ran){
-            case 1:
-            case 3:
+            case 2:
                 Damage = RangedAtt();
+                Damage = randomDamage(Damage);
                 Console.Msg("The Slime used Ranged attack and dealt " + Damage + " Damage", false);
                 break;
-            case 4:
-            case 6:
+            case 3:
                 Damage = MeleeAtt();
+                Damage = randomDamage(Damage);
                 Console.Msg("Slime used Melee and dealt " + Damage + " Damage", false);
                 break;
             default:

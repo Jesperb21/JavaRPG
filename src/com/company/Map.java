@@ -1,6 +1,5 @@
 package com.company;
 
-import com.company.MonsterTypes.Monsters;
 import java.awt.*;
 import java.io.File;
 import java.io.FileFilter;
@@ -14,6 +13,9 @@ public class Map {
     private String _defaultMapPath = "src/com/company/maps/";
     private double _enemySpawnChance = 0.2;
 
+    /**
+     * Constructor
+     */
     public Map(){
         Map = LoadWorld(_defaultMapPath);
     }

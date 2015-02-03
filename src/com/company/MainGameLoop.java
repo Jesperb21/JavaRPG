@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class MainGameLoop {
-
     private static Map GameMap;
 
     /**
@@ -28,8 +27,11 @@ public class MainGameLoop {
      * both monsters and player,
      * combat and move
      */
+
     private static void TurnLoop(){
-        for(Character charector: GameMap.Characters){
+        for (int i = 0; i < GameMap.Characters.toArray().length; i++) {
+            Character charector = GameMap.Characters.get(i);
+
             Point ChaPos = GameMap.whereIs(charector);
             //region Bot
             if (charector instanceof Monster) {
@@ -110,9 +112,13 @@ public class MainGameLoop {
                             boolean fightResult = CombatLoop((Player)charector, (Monster)checkPos);
                             if (fightResult){
                                 Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(),true);
+
                                 ((Monster) checkPos).Die();
+                                GameMap.Characters.remove(checkPos);
+
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                                 GameMap.Map[newPos.x][newPos.y] = charector;
+                                charector.Heal(100);
                                 break;
                             }
                             else {

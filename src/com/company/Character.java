@@ -27,6 +27,25 @@ public abstract class Character implements ICharacter{
     public int Agility = 0;      // % [0-100]   -**IA
     public int Experience = 0;   // % [0-100]
 
+    /**
+     * Character constructor
+     */
+    Character(){
+        if (this instanceof Player){
+            Maxhealth = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
+        }
+        else {
+            Level = Console.RandomInt(1,10);
+            Maxhealth = 1;
+        }
+
+        //Health
+        /*(L * 100 + D) * ?>0(1. 1I)
+        */
+        //Maxhealth = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
+        CurrentHealth = Maxhealth;
+    }
+
     public int RangedAtt() {
         //Ranged
         /*L * 10 * ?>0(1 .2A + .1S)
@@ -49,23 +68,6 @@ public abstract class Character implements ICharacter{
         */
         int Damage = (int)Math.round(((Level * 10) + DefensePower) * (1 + ((0.2 * Intelligence) + (0.1 * Agility))));
         return Damage;
-    }
-
-    /**
-     * Character constructor
-     */
-    Character(){
-        if (this instanceof Player){
-
-        }
-        else {
-            Level = Console.RandomInt(1,10);
-        }
-
-        //Health
-        /*(L * 100 + D) * ?>0(1. 1I)
-        */
-        Maxhealth = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
     }
 
     /**

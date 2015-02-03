@@ -8,12 +8,12 @@ public class Zombie extends Monster{
     public int Attack() {
         int Damage = 0;
 
-        int ran = Console.RandomInt(1,5);
+        int ran = Console.RandomInt(1,4);
         /**
          * the random is noticeably less likely to pick the start and the ending value, so those result in a failAttack()
          */
         switch (ran){
-            case 2:
+            case 1:
             case 3:// 2 of these to get a higher chance of doing damage...
                 Damage = MeleeAtt();
                 Damage = randomDamage(Damage);

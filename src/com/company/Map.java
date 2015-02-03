@@ -11,7 +11,7 @@ public class Map {
     public List<Character> Characters = new ArrayList<Character>();
     public Object[][] Map;
     private String _defaultMapPath = "src/com/company/maps/";
-    private double _enemySpawnChance = 0.2;
+    private double _enemySpawnChance = 0.9;
 
     /**
      * Constructor

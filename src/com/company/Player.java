@@ -6,10 +6,10 @@ public class Player extends Character implements IUser{
     public int Attack() {
         Object UserChoose= null;
         do {
-            Console.Interact(Dialog.Attack);
+            UserChoose = Console.Interact(Dialog.Attack);
         }while (!(UserChoose instanceof Integer) && ((Integer)UserChoose < 1 || (Integer)UserChoose > 4));
         int Damage = 0;
-        switch ((Integer)Console.Interact(Dialog.Attack)){
+        switch ((Integer)UserChoose){
             case 1:
                 Damage = MeleeAtt();
                 Console.Msg("You used Melee and dealt " + Damage + " Damage",false);

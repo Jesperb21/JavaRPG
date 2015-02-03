@@ -9,7 +9,8 @@ public abstract class Character implements ICharacter{
      * @param damage amount of damage thrown at character
      */
     public void TakeDamage(int damage){
-        int def = (int)Math.floor(damage*(1-((1+DefensePower)/100)));
+        double d = damage*(1-((double)(1+DefensePower)/100));
+        int def = (int)Math.floor(d);
         Console.Msg("But the " + this.getClass() + " deflected " + (damage - def) + " damage",true);
         CurrentHealth -= def;
     }

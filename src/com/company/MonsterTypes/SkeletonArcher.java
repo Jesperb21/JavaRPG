@@ -10,4 +10,9 @@ public class SkeletonArcher extends Monster{
     public int RangedAtt(){
         return 0;
     }
+
+    @Override
+    public void failAttack() {
+
+    }
 }

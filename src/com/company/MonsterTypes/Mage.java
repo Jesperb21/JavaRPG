@@ -11,4 +11,9 @@ public class Mage extends Monster{
     public int MagicAtt(){
         return  0;
     }
+
+    @Override
+    public void failAttack() {
+
+    }
 }

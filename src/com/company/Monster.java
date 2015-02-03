@@ -5,6 +5,7 @@ public abstract class Monster  extends Character{
     public void Die() {
     }
 
+    public abstract void failAttack();
 }
 enum Monsters {
     Mage, SkeletonArcher, Slime, Zombie;

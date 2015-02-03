@@ -105,15 +105,21 @@ public class MainGameLoop {
                             }
                         }
                         else if (checkPos instanceof Monster){
+                            Console.Msg("You have found a " + checkPos.getClass().getSimpleName() + " level " +
+                                    (((Monster) checkPos).Level) + " and have entered combat.",true);
                             boolean fightResult = CombatLoop((Player)charector, (Monster)checkPos);
                             if (fightResult){
-                                Console.Msg("Hurray, you have defeated a monster",true);
+                                Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(),true);
+                                ((Monster) checkPos).Die();
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                                 GameMap.Map[newPos.x][newPos.y] = charector;
                                 break;
                             }
                             else {
                                 Console.Msg("Sorry, but you have been defeated.",true);
+                                charector.Die();
+                                //A chance to farm xp
+                                //((Monster) checkPos).Heal(100);
                                 break;
                             }
                         }

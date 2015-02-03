@@ -9,10 +9,12 @@ public abstract class Character implements ICharacter{
      * @param damage amount of damage thrown at character
      */
     public void TakeDamage(int damage){
-        double d = damage*(1-((double)(1+DefensePower)/100));
-        int def = (int)Math.floor(d);
-        Console.Msg("But the " + this.getClass() + " deflected " + (damage - def) + " damage",true);
-        CurrentHealth -= def;
+        if (damage != 0){
+            double d = damage*(1-((double)(1+DefensePower)/100));
+            int def = (int)Math.floor(d);
+            Console.Msg("But the " + this.getClass().getSimpleName().toString() + " deflected " + (damage - def) + " damage",true);
+            CurrentHealth -= def;
+        }
     }
 
     public int Level = 1;        // 1 - 101
@@ -59,5 +61,9 @@ public abstract class Character implements ICharacter{
      * Heal the character % amount
      * @param Healvalue The healing value based as %
      */
-    public void Heal(int Healvalue){}
+    public void Heal(int Healvalue){
+        if (CurrentHealth < 0) CurrentHealth = 0;
+        CurrentHealth += (Maxhealth/100)*Healvalue;
+        if (CurrentHealth > Maxhealth) CurrentHealth = Maxhealth;
+    }
 }

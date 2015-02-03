@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.util.Random;
 
 public final class Console {
-
     /**
      * Clears console "Not working
      */
@@ -44,7 +43,7 @@ public final class Console {
         }
     }
 
-    private static Random ran = new Random();
+    private final static Random ran = new Random();
 
     /**
      * Get random int
@@ -60,7 +59,7 @@ public final class Console {
      * Read Console line
      * @return a string with user response.
      */
-    public static final String readLine()
+    public final static String readLine()
     {
         try{
             java.io.Console console = System.console();
@@ -74,8 +73,77 @@ public final class Console {
             }
         }catch(Exception ex){
             // if any error occurs
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         return  "";
     }
+
+    /**
+     * Interacts with user
+     * @param display Type of dialog
+     * @return Action required from user
+     */
+    public final static Object Interact(Dialog display){
+        switch(display){
+            case Action:
+            default:
+
+                break;
+            case Move:
+                while(true){
+                    Console.Msg("Where do you want to go.",false);
+                    String Response = Console.readLine().toLowerCase();
+                    if (Response.equals("up") || Response.equals("u")){
+                        return MoveDir.Up;
+                    }
+                    else if (Response.equals("down")|| Response.equals("d")){
+                        return MoveDir.Down;
+                    }
+                    else if (Response.equals("left") || Response.equals("l")){
+                        return MoveDir.Left;
+                    }
+                    else if (Response.equals("right")|| Response.equals("r")){
+                        return MoveDir.Right;
+                    }
+                }
+            case Attack:
+                while(true){
+                    Console.Msg("Choose you attack.",false);
+                    Console.Msg("1. Melee",false);
+                    Console.Msg("2. Ranged",false);
+                    Console.Msg("3. Magic",false);
+                    Console.Msg("4. Heal",false);
+
+                    String Response = Console.readLine().toLowerCase();
+
+                    if (Response.equals("1") || Response.equals("2") || Response.equals("3") || Response.equals("4")){
+                        return Integer.parseInt(Response);
+                    }
+                }
+            case Wellcome:
+                Console.Msg("Hello and welcome to the Java Rpg,",false);
+                Console.Msg("also known as, The Tower Of Doom.",false);
+                Console.Msg("Created by Jesper Baunsgaard and Daniel Jensen",true);
+                break;
+        }
+        return "";
+    }
+}
+
+/**
+ * Move directions
+ */
+enum MoveDir{
+    Up,Down,Left,Right;
+    public static MoveDir get(int i){
+        return values()[i];
+    }
+}
+
+/**
+ * Type of dialog to communicate with user,
+ * used in Interact
+ */
+enum Dialog {
+    Wellcome,Action,Move,Attack;
 }

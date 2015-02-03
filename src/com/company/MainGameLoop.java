@@ -1,7 +1,5 @@
 package com.company;
 
-import com.company.MonsterTypes.Mage;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -17,7 +15,7 @@ public class MainGameLoop {
     public static void main(String[] args) {
         GameMap = new Map();
 
-        Interact(Dialog.Wellcome);
+        Console.Interact(Dialog.Wellcome);
 
         //The game loop
         while (true){
@@ -25,14 +23,10 @@ public class MainGameLoop {
         }
     }
 
-    enum MoveDir{
-        Up,Down,Left,Right;
-        public static MoveDir get(int i){
-            return values()[i];
-        }
-    }
     /**
      * Updates each character in the game by turn
+     * both monsters and player,
+     * combat and move
      */
     private static void TurnLoop(){
         for(Character charector: GameMap.Characters){
@@ -82,7 +76,7 @@ public class MainGameLoop {
             //endregion
             else if (charector instanceof Player){
                 do{
-                    Object respons = Interact(Dialog.Move);
+                    Object respons = Console.Interact(Dialog.Move);
                     if (respons instanceof MoveDir){
                         Point newPos = null;
                         switch ((MoveDir)respons){
@@ -107,7 +101,7 @@ public class MainGameLoop {
                                 break;
                             }
                             else if ((Integer)checkPos == 1 ||(Integer)checkPos == -1){
-                                Console.Msg("You have ran into a wall.",true);
+                                Console.Msg("You have run into a wall.",true);
                             }
                         }
                         else if (checkPos instanceof Monster){
@@ -116,9 +110,11 @@ public class MainGameLoop {
                                 Console.Msg("Hurray, you have defeated a monster",true);
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                                 GameMap.Map[newPos.x][newPos.y] = charector;
+                                break;
                             }
                             else {
                                 Console.Msg("Sorry, but you have been defeated.",true);
+                                break;
                             }
                         }
                     }
@@ -134,62 +130,18 @@ public class MainGameLoop {
      * @return Returns true if player wins the fight
      */
     private static boolean CombatLoop(Player player, Monster monster){
-        return false;
-        /*
-        while (player.entity.CurrentHealth > 0){
+        while (player.CurrentHealth > 0){
             int damage = player.Attack();
-            monster.entity.TakeDamage(damage);
-            if (monster.entity.CurrentHealth <= 0){
+            monster.TakeDamage(damage);
+            if (monster.CurrentHealth <= 0){
                 monster.Die();
                 return true;
             }
             else {
                 damage = monster.Attack();
-                player.entity.TakeDamage(damage);
+                player.TakeDamage(damage);
             }
         }
-        return false;*/
-    }
-
-
-    enum Dialog {
-        Wellcome,Action,Move;
-    }
-
-    /**
-     * Interacts with user
-     * @param display Type of dialog
-     * @return Action required from user
-     */
-    private static Object Interact(Dialog display){
-        switch(display){
-            case Action:
-            default:
-
-                break;
-            case Move:
-                while(true){
-                    Console.Msg("Where do you want to go.",false);
-                    String Response = Console.readLine().toLowerCase();
-                    if (Response.equals("up") || Response.equals("u")){
-                        return MoveDir.Up;
-                    }
-                    else if (Response.equals("down")|| Response.equals("d")){
-                        return MoveDir.Down;
-                    }
-                    else if (Response.equals("left") || Response.equals("l")){
-                        return MoveDir.Left;
-                    }
-                    else if (Response.equals("right")|| Response.equals("r")){
-                        return MoveDir.Right;
-                    }
-                }
-            case Wellcome:
-                Console.Msg("Hello and welcome to the Java Rpg,",false);
-                Console.Msg("also known as, The Tower Of Doom.",false);
-                Console.Msg("Created by Jesper Baunsgaard and Daniel Jensen",true);
-                break;
-        }
-        return "";
+        return false;
     }
 }

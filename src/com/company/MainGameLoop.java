@@ -113,17 +113,18 @@ public class MainGameLoop {
                             if (fightResult){
                                 Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(),true);
 
-                                ((Monster) checkPos).Die();
+                                ((Player) charector).getExperience(((Monster) checkPos).Die(charector));
                                 GameMap.Characters.remove(checkPos);
 
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                                 GameMap.Map[newPos.x][newPos.y] = charector;
+
                                 charector.Heal(100);
                                 break;
                             }
                             else {
                                 Console.Msg("Sorry, but you have been defeated.",true);
-                                charector.Die();
+                                charector.Die((Character)checkPos);
                                 //A chance to farm xp
                                 //((Monster) checkPos).Heal(100);
                                 break;
@@ -146,7 +147,6 @@ public class MainGameLoop {
             int damage = player.Attack();
             monster.TakeDamage(damage);
             if (monster.CurrentHealth <= 0){
-                monster.Die();
                 return true;
             }
             else {

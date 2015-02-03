@@ -100,6 +100,20 @@ public final class Console {
             default:
 
                 break;
+            case Level:
+                while(true){
+                    Console.Msg("Congratulation you a gain a level.",false);
+                    Console.Msg("Choose a stat to improve.",false);
+                    Console.Msg("1. Strength",false);
+                    Console.Msg("2. DefensePower",false);
+                    Console.Msg("3. Intelligence",false);
+                    Console.Msg("4. Agility",false);
+                    String Response = Console.readLine().toLowerCase();
+
+                    if (Response.equals("1") || Response.equals("2") || Response.equals("3") || Response.equals("4")){
+                        return Integer.parseInt(Response);
+                    }
+                }
             case Move:
                 while(true){
                     Console.Msg("Where do you want to go.",false);
@@ -156,5 +170,5 @@ enum MoveDir{
  * used in Interact
  */
 enum Dialog {
-    Wellcome,Action,Move,Attack;
+    Wellcome,Action,Move,Attack,Level;
 }

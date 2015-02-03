@@ -5,4 +5,5 @@ public interface IUser {
     public int RangedAtt();
     public int MeleeAtt();
     public int MagicAtt();
+    public void getExperience(int Exp);
 }

@@ -2,8 +2,11 @@ package com.company;
 
 public abstract class Monster  extends Character{
     @Override
-    public void Die() {
-
+    public int Die(Character Defeater) {
+        int DifLvl = Level - Defeater.Level;
+        int exp = 10 + DifLvl;
+        if (exp < 1) exp = 1;
+        return exp;
     }
 
     public abstract void failAttack();

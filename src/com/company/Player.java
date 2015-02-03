@@ -30,7 +30,7 @@ public class Player extends Character implements IUser{
                 Healing = randomDamage(Healing);
                 Console.Msg("You used Heal and Healed you self with " + Healing + "%",false);
                 Heal(Healing);
-                Console.Msg("You now have " + CurrentHealth + " hp.",false);
+                Console.Msg("You now have " + CurrentHealth + " hp.", false);
                 Damage = 0;
                 break;
         }
@@ -39,8 +39,9 @@ public class Player extends Character implements IUser{
     }
 
     @Override
-    public void Die() {
+    public int Die(Character Defeater) {
         Heal(100);
+        return 0;
     }
     //endregion
 
@@ -53,6 +54,30 @@ public class Player extends Character implements IUser{
         */
         Maxhealth = (int)Math.round(((Level * 100) + DefensePower) * (1+ (0.1 * Intelligence)));
         Heal(100);
+        int response = (Integer)Console.Interact(Dialog.Level);
+        switch (response){
+            case 1:
+                Strength++;
+                break;
+            case 2:
+                DefensePower++;
+                break;
+            case 3:
+                Intelligence++;
+                break;
+            case 4:
+                Agility++;
+                break;
+        }
+    }
+
+    @Override
+    public void getExperience(int Exp) {
+        Experience += Exp;
+        while(Experience >= 100){
+            Experience -= 100;
+            LvlUp();
+        }
     }
     //endregion
 }

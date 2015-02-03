@@ -10,6 +10,9 @@ public abstract class Character implements ICharacter{
      */
     public void TakeDamage(int damage){
         if (damage != 0){
+            //Defense
+            /* 1- ((1)+D / 100)
+            */
             double d = damage*(1-((double)(1+DefensePower)/100));
             int def = (int)Math.floor(d);
             Console.Msg("But the " + this.getClass().getSimpleName().toString() + " deflected " + (damage - def) + " damage",true);
@@ -24,25 +27,29 @@ public abstract class Character implements ICharacter{
     public int Agility = 0;      // % [0-100]   -**IA
     public int Experience = 0;   // % [0-100]
 
-    //Health
-    /*(L * 100 + D) * ?>0(1. 1I)
-    */
+    public int RangedAtt() {
+        //Ranged
+        /*L * 10 * ?>0(1 .2A + .1S)
+        */
+        int Damage = (int)Math.round((Level * 10) * (1 + ((0.2 * Agility) + (0.1 * Strength))));
+        return Damage;
+    }
 
-    //Defense
-    /*(1) + D
-    */
+    public int MeleeAtt() {
+        //Melee
+        /*(L * 10 + D) * ?>0(1 .22S - .2I)
+        */
+        int Damage = (int)Math.round(((Level * 10) + DefensePower) * (1 + ((0.22 * Strength) - (0.2 * Intelligence))));
+        return Damage;
+    }
 
-    //Melee
-    /*(L * 10 + D) * ?>0(1 .22S - .2I)
-    */
-
-    //Magic
-    /*L * 10 * ?>0(1 .2I + .1A)
-    */
-
-    //Ranged
-    /*L * 10 * ?>0(1 .2A + .1S)
-    */
+    public int MagicAtt() {
+        //Magic
+        /*L * 10 * ?>0(1 .2I + .1A)
+        */
+        int Damage = (int)Math.round(((Level * 10) + DefensePower) * (1 + ((0.2 * Intelligence) + (0.1 * Agility))));
+        return Damage;
+    }
 
     /**
      * Character constructor
@@ -54,6 +61,10 @@ public abstract class Character implements ICharacter{
         else {
             Level = Console.RandomInt(1,10);
         }
+
+        //Health
+        /*(L * 100 + D) * ?>0(1. 1I)
+        */
         Maxhealth = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
     }
 

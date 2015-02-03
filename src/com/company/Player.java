@@ -23,12 +23,17 @@ public class Player extends Character implements IUser{
                 Console.Msg("You used Magic and dealt " + Damage + " Damage",false);
                 break;
             case 4:
+                //Healing
+                /*(L * 10) * ?>0(1. 1I)
+                */
+                int Healing = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
 
-                Console.Msg("You used Heal and Healed you self with " + Damage + "%",false);
-                Heal(Damage);
+                Console.Msg("You used Heal and Healed you self with " + Healing + "%",false);
+                Heal(Healing);
                 Damage = 0;
                 break;
         }
+
         return Damage;
     }
 
@@ -47,33 +52,6 @@ public class Player extends Character implements IUser{
         */
         Maxhealth = (int)Math.round(((Level * 100) + DefensePower) * (1+ (0.1 * Intelligence)));
         Heal(100);
-    }
-
-    @Override
-    public int RangedAtt() {
-        //Ranged
-        /*L * 10 * ?>0(1 .2A + .1S)
-        */
-        int Damage = (int)Math.round((Level * 10) * (1 + ((0.2 * Agility) + (0.1 * Strength))));
-        return Damage;
-    }
-
-    @Override
-    public int MeleeAtt() {
-        //Melee
-        /*(L * 10 + D) * ?>0(1 .22S - .2I)
-        */
-        int Damage = (int)Math.round(((Level * 10) + DefensePower) * (1 + ((0.22 * Strength) - (0.2 * Intelligence))));
-        return Damage;
-    }
-
-    @Override
-    public int MagicAtt() {
-        //Magic
-        /*L * 10 * ?>0(1 .2I + .1A)
-        */
-        int Damage = (int)Math.round(((Level * 10) + DefensePower) * (1 + ((0.2 * Intelligence) + (0.1 * Agility))));
-        return Damage;
     }
     //endregion
 }

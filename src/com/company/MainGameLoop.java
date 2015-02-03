@@ -119,6 +119,7 @@ public class MainGameLoop {
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                                 GameMap.Map[newPos.x][newPos.y] = charector;
 
+                                GameMap.addNewCharacter(1);//add new character to map
                                 charector.Heal(100);
                                 break;
                             }

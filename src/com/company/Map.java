@@ -16,12 +16,13 @@ public class Map {
     /**
      * Constructor
      */
-    public Map(){
+    public Map() {
         Map = LoadWorld(_defaultMapPath);
     }
 
     /**
      * loads a random map from the maps folder
+     *
      * @param Path path to map folder
      * @return a map with characters and players added
      */
@@ -57,29 +58,16 @@ public class Map {
                     Object object = c;
                     if (c == '0') {
                         object = 0;
-                        if (!playerPlaced && random.nextDouble() < 0.1){//only place a player if it hasnt been placed already
+                        if (!playerPlaced && random.nextDouble() < 0.1) {//only place a player if it hasnt been placed already
                             Player p = new Player();
                             Characters.add(p);
                             object = p;
 
                             playerPlaced = true;
-                        }else if (random.nextDouble() < _enemySpawnChance) {//you cannot place an enemy on the same spot as a player
-                            Class<?> r;
-                            Character character = null;
-                            try {
-                                r = Class.forName("com.company.MonsterTypes."+String.valueOf(Monsters.get(random.nextInt(Monsters.values().length))));
-                                character = (Character) r.newInstance();
-                            } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (InstantiationException e) {
-                                e.printStackTrace();
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-                            Characters.add(character);
-                            object = character;
+                        } else if (random.nextDouble() < _enemySpawnChance) {//you cannot place an enemy on the same spot as a player
+                            object = addNewRandomMonster();
                         }
-                    }else if(c == '1'){
+                    } else if (c == '1') {
                         object = 1;
                     }
                     map[i][j] = object;
@@ -92,12 +80,13 @@ public class Map {
 
     /**
      * fetches the position of a character
+     *
      * @param c character to return position of
      * @return position of the character if the character is on the map, null if not
      */
-    public Point whereIs(Character c){
+    public Point whereIs(Character c) {
         for (int i = 0; i < Map.length; i++) {
-            if(Arrays.asList(Map[i]).contains(c)){
+            if (Arrays.asList(Map[i]).contains(c)) {
                 return new Point(i, Arrays.asList(Map[i]).indexOf(c));
             }
         }
@@ -106,18 +95,52 @@ public class Map {
 
     /**
      * fetches the object at the given pos on the map
+     *
      * @param p position to fetch from
      * @return object if valid point, -1 if not
      */
-    public Object fetchAt(Point p){
-        if (p.x >= 0 && p.x <= (Map.length -1) && p.y >= 0 && p.y <= (Map[0].length -1)) {
+    public Object fetchAt(Point p) {
+        if (p.x >= 0 && p.x <= (Map.length - 1) && p.y >= 0 && p.y <= (Map[0].length - 1)) {
             if (Map[p.x][p.y] != null) {
                 return Map[p.x][p.y];
             } else {
                 return -1;
             }
-        }else {
+        } else {
             return -1;
+        }
+    }
+
+    private Object addNewRandomMonster() {
+        Class<?> r;
+        Character character = null;
+        try {
+            r = Class.forName("com.company.MonsterTypes." + String.valueOf(Monsters.get(Console.RandomInt(0, Monsters.values().length - 1))));
+            character = (Character) r.newInstance();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        Characters.add(character);
+        return (Object) character;
+    }
+
+    public void addNewCharacter(int AmountToAdd) {
+        while (AmountToAdd > 0) {
+            for (int i = 0; i < Map.length && AmountToAdd > 0; i++) {
+                for (int j = 0; j < Map[0].length && AmountToAdd > 0; j++) {
+                    Object o = Map[i][j];
+                    if ((o instanceof Integer) && ((Integer) o == 0)) {
+                        if (Console.RandomDouble(0, 1) > _enemySpawnChance) {
+                            Map[i][j] = addNewRandomMonster();
+                            AmountToAdd--;
+                        }
+                    }
+                }
+            }
         }
     }
 }

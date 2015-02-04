@@ -138,7 +138,7 @@ public final class Console {
                 }
             case Move:
                 while(true){
-                    Console.Msg("Where do you want to go.",false,true);
+                    Console.Msg("Where do you want to go.",false,false);
                     String Response = Console.readLine().toLowerCase();
                     if (Response.equals("up") || Response.equals("u")){
                         return MoveDir.Up;

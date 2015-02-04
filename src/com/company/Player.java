@@ -9,18 +9,41 @@ public class Player extends Character implements IUser{
             UserChoose = Console.Interact(Dialog.Attack);
         }while (!(UserChoose instanceof Integer) && ((Integer)UserChoose < 1 || (Integer)UserChoose > 4));
         int Damage = 0;
+        int ran = 0;
         switch ((Integer)UserChoose){
             case 1:
                 Damage = randomDamage(MeleeAtt());
-                Console.Msg("You used Melee and dealt " + Damage + " Damage",false,true);
+                ran = Console.RandomInt(1, 2);
+                switch (ran) {
+                    case 1:
+                        Console.Msg("You swung your sword, hit some flesh, and dealt " + Damage + " Damage",false,true);
+                        break;
+                    case 2:
+                        Console.Msg("You headbutted your enemy, and dealt " + Damage + " Damage",false,true);
+                        break;
+                }
                 break;
             case 2:
                 Damage = randomDamage(RangedAtt());
-                Console.Msg("You used Ranged and dealt " + Damage + " Damage",false,true);
+                switch (ran) {
+                    case 1:
+                        Console.Msg("You threw your sword at the monster and dealt " + Damage + " Damage", false, true);
+                        break;
+                    case 2:
+                        Console.Msg("You picked up a stone, threw it at the monster and dealt " + Damage + " Damage", false, true);
+                        break;
+                }
                 break;
             case 3:
                 Damage = randomDamage(MagicAtt());
-                Console.Msg("You used Magic and dealt " + Damage + " Damage",false,true);
+                switch (ran) {
+                    case 1:
+                        Console.Msg("You threw a fireball and dealt " + Damage + " magic Damage", false, true);
+                        break;
+                    case 2:
+                        Console.Msg("You started a thunder strike and dealt " + Damage + " magic Damage", false, true);
+                        break;
+                }
                 break;
             case 4:
                 //Healing

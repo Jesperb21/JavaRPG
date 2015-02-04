@@ -104,7 +104,8 @@ public class MainGameLoop {
                                 break;
                             }
                             else if ((Integer)checkPos == 1 ||(Integer)checkPos == -1){
-                                Console.Msg("You have run into a wall.",true,true);
+                                GameMap.printVisibleMap();
+                                Console.Msg("You have run into a wall.",true,false);
                             }
                         }
                         else if (checkPos instanceof Monster){

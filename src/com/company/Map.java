@@ -149,6 +149,7 @@ public class Map {
      * prints the map thats visible for the player
      */
     public void printVisibleMap(){
+        String Message = "";
         for (int i = 0; i < VisibleMap[0].length; i++) {
             String line = "";
             for (int j = 0; j < VisibleMap.length; j++) {
@@ -158,9 +159,9 @@ public class Map {
                     line += " ";
                 }
             }
-            Console.Msg(line, false);
+            Message += line + "\n";
         }
-        Console.Msg("", false);
+        Console.Msg(Message, false,true);
     }
     /**
      * Create a new monster

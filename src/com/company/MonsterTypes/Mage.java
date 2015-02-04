@@ -24,10 +24,10 @@ public class Mage extends Monster{
                 ran = Console.RandomInt(1, 2);
                 switch (ran) {
                     case 1:
-                        Console.Msg("The Mage threw a fireball and dealt " + Damage + "magic Damage", false, true);
+                        Console.Msg("The Mage threw a fireball and dealt " + Damage + " magic Damage", false, true);
                         break;
                     case 2:
-                        Console.Msg("The Mage started a thunder strike and dealt " + Damage + "magic Damage", false, true);
+                        Console.Msg("The Mage started a thunder strike and dealt " + Damage + " magic Damage", false, true);
                         break;
                 }
                 break;

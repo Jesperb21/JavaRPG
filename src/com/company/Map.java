@@ -10,14 +10,15 @@ import java.util.List;
 public class Map {
     public List<Character> Characters = new ArrayList<Character>();
     public Object[][] Map;
+    public Object[][] VisibleMap;
     private String _defaultMapPath = "src/com/company/maps/";
-    private double _enemySpawnChance = 0.9;
+    private double _enemySpawnChance = 0.2;
 
     /**
      * Constructor
      */
     public Map() {
-        Map = LoadWorld(_defaultMapPath);
+        LoadWorld(_defaultMapPath);
     }
 
     /**
@@ -26,7 +27,7 @@ public class Map {
      * @param Path path to map folder
      * @return a map with characters and players added
      */
-    private Object[][] LoadWorld(String Path) {
+    private void LoadWorld(String Path) {
         File MapsFolder = new File(Path);
         File[] ListOfFiles = MapsFolder.listFiles(new FileFilter() {
             @Override
@@ -51,6 +52,7 @@ public class Map {
 
         Object[][] map = new Object[lines.get(0).length()][lines.size()];
         boolean playerPlaced = false;
+        Point playerPlacedHere = new Point(0,0);
         while (!playerPlaced) {//if player wasn't placed after first attempt to generate map, retry!
             for (int i = 0; i < lines.get(0).length(); i++) {
                 for (int j = 0; j < lines.size(); j++) {
@@ -63,6 +65,8 @@ public class Map {
                             Characters.add(p);
                             object = p;
 
+                            playerPlacedHere = new Point(i,j);
+
                             playerPlaced = true;
                         } else if (random.nextDouble() < _enemySpawnChance) {//you cannot place an enemy on the same spot as a player
                             object = CreateRandomMonster();
@@ -74,8 +78,12 @@ public class Map {
                 }
             }
         }
-
-        return map;
+        this.Map = map;
+        VisibleMap = new Object[map.length][map[0].length];
+        for (int i = 0; i < VisibleMap.length; i++) {
+            Arrays.fill(VisibleMap[i],0);
+        }
+        addToVisibleMap(playerPlacedHere); //make the map the player can see after generating the entire game map
     }
 
     /**
@@ -104,13 +112,56 @@ public class Map {
             if (Map[p.x][p.y] != null) {
                 return Map[p.x][p.y];
             } else {
-                return -1;
+                return 1;
             }
         } else {
             return -1;
         }
     }
 
+    /**
+     * adds points around a given point to the visible map for the player
+     * @param p the point of the center visible point for the player
+     */
+    public void addToVisibleMap(Point p) {
+        Point[] pointsToAdd = new Point[4];
+        pointsToAdd[0] = new Point(p.x, p.y+1);
+        pointsToAdd[1] = new Point(p.x, p.y-1);
+        pointsToAdd[2] = new Point(p.x+1, p.y);
+        pointsToAdd[3] = new Point(p.x-1, p.y);
+        for (Point po : pointsToAdd) {
+            Object checkPos = fetchAt(po);
+            if (checkPos instanceof Integer) {
+                if ((Integer) checkPos == 0) {
+                    VisibleMap[po.x][po.y] = " ";
+                } else if ((Integer) checkPos == 1) {
+                    VisibleMap[po.x][po.y] = "#";
+                }
+            }else {
+                VisibleMap[po.x][po.y] = "#";
+            }
+        }
+        VisibleMap[p.x][p.y] = "X";
+    }
+
+
+    /**
+     * prints the map thats visible for the player
+     */
+    public void printVisibleMap(){
+        for (int i = 0; i < VisibleMap[0].length; i++) {
+            String line = "";
+            for (int j = 0; j < VisibleMap.length; j++) {
+                if (VisibleMap[j][i] instanceof String){
+                    line += VisibleMap[j][i];
+                }else {
+                    line += " ";
+                }
+            }
+            Console.Msg(line, false);
+        }
+        Console.Msg("", false);
+    }
     /**
      * Create a new monster
      * @return The New borne monster

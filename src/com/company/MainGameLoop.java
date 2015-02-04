@@ -13,7 +13,6 @@ public class MainGameLoop {
      */
     public static void main(String[] args) {
         GameMap = new Map();
-
         Console.Interact(Dialog.Wellcome);
 
         //The game loop
@@ -75,8 +74,10 @@ public class MainGameLoop {
                 //endregion
             }
             //endregion
+            //region charMove
             else if (charector instanceof Player){
                 do{
+                    GameMap.printVisibleMap();
                     Object respons = Console.Interact(Dialog.Move);
                     if (respons instanceof MoveDir){
                         Point newPos = null;
@@ -99,6 +100,7 @@ public class MainGameLoop {
                             if ((Integer)checkPos == 0){
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                                 GameMap.Map[newPos.x][newPos.y] = charector;
+                                GameMap.addToVisibleMap(newPos);
                                 break;
                             }
                             else if ((Integer)checkPos == 1 ||(Integer)checkPos == -1){
@@ -118,6 +120,7 @@ public class MainGameLoop {
 
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                                 GameMap.Map[newPos.x][newPos.y] = charector;
+                                GameMap.addToVisibleMap(newPos);
 
                                 GameMap.addNewCharacter(1,charector.Level);//add new character to map
                                 charector.Heal(100);
@@ -134,6 +137,7 @@ public class MainGameLoop {
                     }
                 }while(true);
             }
+            //endregion
         }
     }
 

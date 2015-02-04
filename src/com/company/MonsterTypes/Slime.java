@@ -18,14 +18,30 @@ public class Slime extends Monster{
          */
         switch (ran){
             case 2:
-                Damage = RangedAtt();
+                Damage = MagicAtt();
                 Damage = randomDamage(Damage);
-                Console.Msg("The Slime used Ranged attack and dealt " + Damage + " Damage", false);
+                ran = Console.RandomInt(1, 2);
+                switch (ran){
+                    case 1:
+                        Console.Msg("The Slime spits on you and dealt " + Damage + " magic Damage", false,true);
+                        break;
+                    case 2:
+                        Console.Msg("The Slime farted and dealt " + Damage + " magic Damage", false,true);
+                        break;
+                }
                 break;
             case 3:
                 Damage = MeleeAtt();
                 Damage = randomDamage(Damage);
-                Console.Msg("Slime used Melee and dealt " + Damage + " Damage", false);
+                ran = Console.RandomInt(1, 2);
+                switch (ran){
+                    case 1:
+                        Console.Msg("The Slime hit you and dealt " + Damage + " Damage", false,true);
+                        break;
+                    case 2:
+                        Console.Msg("You got stuck in the Slime and took " + Damage + " Damage", false,true);
+                        break;
+                }
                 break;
             default:
                 failAttack();
@@ -39,6 +55,16 @@ public class Slime extends Monster{
      */
     @Override
     public void failAttack() {
-        Console.Msg("The Slime got stuck on a stick and failed to move.", false);
+        switch (Console.RandomInt(1,3)){
+            case 1:
+                Console.Msg("The Slime got stuck on a stick and failed to move.", true,true);
+                break;
+            case 2:
+                Console.Msg("The Slime slipped into a hole and struggles to get up.", true,true);
+                break;
+            case 3:
+                Console.Msg("The Slime is still laying in pisces from you last attack, but is gathering itself.", true,true);
+                break;
+        }
     }
 }

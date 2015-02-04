@@ -21,7 +21,15 @@ public class Zombie extends Monster{
             case 3:// 2 of these to get a higher chance of doing damage...
                 Damage = MeleeAtt();
                 Damage = randomDamage(Damage);
-                Console.Msg("Zombie used Melee and dealt " + Damage + " Damage", false);
+                ran = Console.RandomInt(1, 3);
+                switch (ran) {
+                    case 1:
+                        Console.Msg("The Zombie hit´s you, dealt " + Damage + " Damage, and dropped it´s arm", false, true);
+                        break;
+                    case 2:
+                        Console.Msg("the Zombie bits you and deals " + Damage + " Damage", false, true);
+                        break;
+                }
                 break;
             default:
                 failAttack();
@@ -35,6 +43,16 @@ public class Zombie extends Monster{
      */
     @Override
     public void failAttack(){
-        Console.Msg("Zombie fell upon it owns feat and failed the attack", false);
+        switch (Console.RandomInt(1,3)) {
+            case 1:
+                Console.Msg("The Zombie fell upon it owns feat and failed the attack.", true, true);
+                break;
+            case 2:
+                Console.Msg("The Zombie chased you, but stopped like it forgot what it was doing.", true, true);
+                break;
+            case 3:
+                Console.Msg("The Zombie was too busy chewing on a brain.", true, true);
+                break;
+        }
     }
 }

@@ -21,7 +21,15 @@ public class Mage extends Monster{
         switch (ran){
             case 2:
                 Damage = randomDamage(MagicAtt());
-                Console.Msg("Mage used Magic and dealt " + Damage + " Damage", false);
+                ran = Console.RandomInt(1, 2);
+                switch (ran) {
+                    case 1:
+                        Console.Msg("The Mage threw a fireball and dealt " + Damage + "magic Damage", false, true);
+                        break;
+                    case 2:
+                        Console.Msg("The Mage started a thunder strike and dealt " + Damage + "magic Damage", false, true);
+                        break;
+                }
                 break;
             default:
                 failAttack();
@@ -35,6 +43,16 @@ public class Mage extends Monster{
      */
     @Override
     public void failAttack() {
-        Console.Msg("The Mage stumble upon its tongue, and couldn't pronounce the spell.", false);
+        switch (Console.RandomInt(1,3)){
+            case 1:
+                Console.Msg("The Mage stumble upon its tongue, and couldn't pronounce the spell.", true,true);
+                break;
+            case 2:
+                Console.Msg("The Mage is looking in his Magic book to find a casting spell.", true,true);
+                break;
+            case 3:
+                Console.Msg("The Mage have lost his glasses, and fumbles the ground to find them.", true,true);
+                break;
+        }
     }
 }

@@ -1,5 +1,10 @@
 package com.company;
 
+import com.company.MonsterTypes.Mage;
+import com.company.MonsterTypes.SkeletonArcher;
+import com.company.MonsterTypes.Slime;
+import com.company.MonsterTypes.Zombie;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Random;
@@ -8,9 +13,9 @@ public final class Console {
      /**
      * Clears console "Not working
      */
-    public final static void Clear(int MessageLines)
+    public final static void Clear()
     {
-        try
+        /*try
         {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows"))
@@ -26,11 +31,11 @@ public final class Console {
         {
             //e.printStackTrace();
             //  Handle any exceptions.
-        }
-        /* int displaylength = 15 - MessageLines;
+        }*/
+        int displaylength = 15;
         for (int i = 0; i < displaylength; i++) {
             Console.Msg("",false);
-        }*/
+        }
     }
 
     /**
@@ -40,16 +45,13 @@ public final class Console {
      * @param Clear Shall the console Clear before view.
      */
     public final static void Msg(String msg, boolean Wait, boolean Clear){
-        System.out.println(msg);
-        int lines = msg.split("\n").length;
-        if (Wait){
-            lines++;
-            System.out.println("Please press 'enter' to continue");
-        }
         if (Clear){
-            Clear(lines);
+            Clear();
         }
+        System.out.println(msg);
+
         if (Wait){
+            System.out.println("Please press 'enter' to continue");
             Console.readLine();
         }
     }
@@ -104,7 +106,7 @@ public final class Console {
             }
         }catch(Exception ex){
             // if any error occurs
-            //ex.printStackTrace();
+            ex.printStackTrace();
         }
         return  "";
     }
@@ -115,16 +117,18 @@ public final class Console {
      * @return Action required from user
      */
     public final static Object Interact(Dialog display){
+        String Message = "";
         switch(display){
             case Level:
                 while(true){
-                    String Message = "Congratulation you a gain a level.\n";
+                    Console.YarhAsciiArt();
+                    Message += "Congratulation you a gain a level.\n";
                     Message += "Choose a stat to improve.\n";
                     Message += "2. Strength\n";
                     Message += "2. DefensePower\n";
                     Message += "3. Intelligence\n";
-                    Message += "4. Agility\n";
-                    Console.Msg(Message,false,true);
+                    Message += "4. Agility";
+                    Console.Msg(Message,false,false);
 
                     String Response = Console.readLine().toLowerCase();
 
@@ -151,12 +155,12 @@ public final class Console {
                 }
             case Attack:
                 while(true){
-                    String Message = "Choose you attack.\n";
+                    Message += "Choose you attack.\n";
                     Message += "1. Melee\n";
                     Message += "2. Ranged\n";
                     Message += "3. Magic\n";
-                    Message += "4. Heal\n";
-                    Console.Msg(Message,false,true);
+                    Message += "4. Heal";
+                    Console.Msg(Message,false,false);
 
                     String Response = Console.readLine().toLowerCase();
 
@@ -165,15 +169,68 @@ public final class Console {
                     }
                 }
             case Wellcome:
-                String Message = "Hello and welcome to the Java Rpg,\n";
+                Message += "Hello and welcome to the Java Rpg,\n";
                 Message += "also known as, The Tower Of Doom.\n";
                 Message += "Created by Jesper Baunsgaard and Daniel Jensen";
+
                 Console.Msg(Message,true,true);
                 break;
             default:
                 break;
         }
-        return "";
+        return Message;
+    }
+
+    public final static void YarhAsciiArt(){
+        String Message ="";
+        Message += "    ,    yeah \n";
+        Message += "    \\    /  \n";
+        Message += "     \\0     \n";
+        Message += "      |\\/  \n";
+        Message += "      |     \n";
+        Message += "     / \\   \n";
+        Message += "    /   \\   \n";
+        Console.Msg(Message,false,true);
+    }
+
+    public final static void BattleAsciiArt(Player player,Monster monster){
+        Console.Msg(" Hp: " + player.CurrentHealth + "      Hp: " + monster.CurrentHealth + "\n",false,false);
+        String Message ="";
+        Message += "  Player      " + monster.getClass().getSimpleName() + "\n";
+        if (monster instanceof Slime){
+            Message += "             \n";
+            Message += "    (}       \n";
+            Message += "  \\/|\\__   \n";
+            Message += "    |          ----\n";
+            Message += "   / \\        | #   \\\n";
+            Message += "  /   \\       |______\\ \n";
+        }
+        else if (monster instanceof Mage) {
+            Message += "              \n";
+            Message += "    (}        o £ o  \n";
+            Message += "  \\/|\\__      |\\O/|\n";
+            Message += "    |          \\Y/\n";
+            Message += "   / \\         /_\\\n";
+            Message += "  /   \\        _W_ \n";
+        }
+        else if (monster instanceof Zombie){
+            Message += "              \n";
+            Message += "    (}           o  \n";
+            Message += "  \\/|\\__      __/|  \n";
+            Message += "    |            |  \n";
+            Message += "   / \\          / \\ \n";
+            Message += "  /   \\         |  | \n";
+        }
+        else if (monster instanceof SkeletonArcher){
+            Message += "              /\\       \n";
+            Message += "    (}       /__\\_{)   \n";
+            Message += "  \\/|\\__    |--<<)__\\  \n";
+            Message += "    |        \\  /  (   \n";
+            Message += "   / \\        \\/  /|   \n";
+            Message += "  /   \\           ||   \n";
+        }
+        Console.Msg(Message,false,true);
+        Console.Msg(" Hp: " + player.CurrentHealth + "      Hp: " + monster.CurrentHealth +"\n",false,false);
     }
 }
 

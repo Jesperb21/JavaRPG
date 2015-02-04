@@ -18,7 +18,7 @@ public class MainGameLoop {
 
         //The game loop
         while (true){
-            //TurnLoop();
+            TurnLoop();
         }
     }
 
@@ -102,15 +102,16 @@ public class MainGameLoop {
                                 break;
                             }
                             else if ((Integer)checkPos == 1 ||(Integer)checkPos == -1){
-                                Console.Msg("You have run into a wall.",true);
+                                Console.Msg("You have run into a wall.",true,true);
                             }
                         }
                         else if (checkPos instanceof Monster){
                             Console.Msg("You have found a " + checkPos.getClass().getSimpleName() + " level " +
-                                    (((Monster) checkPos).Level) + " and have entered combat.",true);
+                                    (((Monster) checkPos).Level) + " and have entered combat.",true,true);
                             boolean fightResult = CombatLoop((Player)charector, (Monster)checkPos);
                             if (fightResult){
-                                Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(),true);
+                                Console.YarhAsciiArt();
+                                Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(),true,false);
 
                                 ((Player) charector).getExperience(((Monster) checkPos).Die(charector));
                                 GameMap.Characters.remove(checkPos);
@@ -123,7 +124,7 @@ public class MainGameLoop {
                                 break;
                             }
                             else {
-                                Console.Msg("Sorry, but you have been defeated.",true);
+                                Console.Msg("Sorry, but you have been defeated.",true,true);
                                 charector.Die((Character)checkPos);
                                 //A chance to farm xp
                                 //((Monster) checkPos).Heal(100);
@@ -144,6 +145,7 @@ public class MainGameLoop {
      */
     private static boolean CombatLoop(Player player, Monster monster){
         while (player.CurrentHealth > 0){
+            Console.BattleAsciiArt(player,monster);
             int damage = player.Attack();
             monster.TakeDamage(damage);
             if (monster.CurrentHealth <= 0){

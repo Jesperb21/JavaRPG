@@ -1,6 +1,12 @@
 package com.company;
 
+
 public abstract class Monster  extends Character{
+    /**
+     * this happens when the monster dies
+     * @param Defeater the one who killed the monster, usually the player
+     * @return the amount of experience to give the defeater
+     */
     @Override
     public int Die(Character Defeater) {
         int DifLvl = Level - Defeater.Level;
@@ -9,8 +15,14 @@ public abstract class Monster  extends Character{
         return exp;
     }
 
+    /**
+     * forces all who extends this class to have a failAttack method, for when the monster failed to attack
+     */
     public abstract void failAttack();
 
+    /**
+     * lvlup the monster and add random stats
+     */
     public void LvlUp() {
         Level += 1;
         //Health
@@ -35,9 +47,18 @@ public abstract class Monster  extends Character{
         }
     }
 }
+
+/**
+ * an enum of all the monsters possible to spawn
+ */
 enum Monsters {
     Mage,SkeletonArcher,Slime,Zombie;
 
+    /**
+     * gets the name of the monster at the specified index
+     * @param i index to look up
+     * @return name  of the monster class
+     */
     public static Monsters get(int i) {
         return values()[i];
     }

@@ -18,7 +18,7 @@ public class MainGameLoop {
 
         //The game loop
         while (true){
-            TurnLoop();
+            //TurnLoop();
         }
     }
 

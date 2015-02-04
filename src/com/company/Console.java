@@ -8,7 +8,7 @@ public final class Console {
      /**
      * Clears console "Not working
      */
-    public final static void Clear()
+    public final static void Clear(int MessageLines)
     {
         try
         {
@@ -27,20 +27,40 @@ public final class Console {
             //e.printStackTrace();
             //  Handle any exceptions.
         }
+        /* int displaylength = 15 - MessageLines;
+        for (int i = 0; i < displaylength; i++) {
+            Console.Msg("",false);
+        }*/
     }
 
     /**
      * Write Message in console
      * @param msg The message to be shown
      * @param Wait Shall the console Wait for user to respond.
-    */
-    public final static void Msg(String msg, boolean Wait)
-    {
+     * @param Clear Shall the console Clear before view.
+     */
+    public final static void Msg(String msg, boolean Wait, boolean Clear){
         System.out.println(msg);
+        int lines = msg.split("\n").length;
         if (Wait){
+            lines++;
             System.out.println("Please press 'enter' to continue");
+        }
+        if (Clear){
+            Clear(lines);
+        }
+        if (Wait){
             Console.readLine();
         }
+    }
+    /**
+     * Write Message in console
+     * @param msg The message to be shown
+     * @param Wait Shall the console Wait for user to respond.
+     */
+    public final static void Msg(String msg, boolean Wait)
+    {
+        Msg(msg, Wait,false);
     }
 
     private final static Random ran = new Random();
@@ -98,12 +118,14 @@ public final class Console {
         switch(display){
             case Level:
                 while(true){
-                    Console.Msg("Congratulation you a gain a level.",false);
-                    Console.Msg("Choose a stat to improve.",false);
-                    Console.Msg("1. Strength",false);
-                    Console.Msg("2. DefensePower",false);
-                    Console.Msg("3. Intelligence",false);
-                    Console.Msg("4. Agility",false);
+                    String Message = "Congratulation you a gain a level.\n";
+                    Message += "Choose a stat to improve.\n";
+                    Message += "2. Strength\n";
+                    Message += "2. DefensePower\n";
+                    Message += "3. Intelligence\n";
+                    Message += "4. Agility\n";
+                    Console.Msg(Message,false,true);
+
                     String Response = Console.readLine().toLowerCase();
 
                     if (Response.equals("1") || Response.equals("2") || Response.equals("3") || Response.equals("4")){
@@ -112,7 +134,7 @@ public final class Console {
                 }
             case Move:
                 while(true){
-                    Console.Msg("Where do you want to go.",false);
+                    Console.Msg("Where do you want to go.",false,true);
                     String Response = Console.readLine().toLowerCase();
                     if (Response.equals("up") || Response.equals("u")){
                         return MoveDir.Up;
@@ -129,11 +151,12 @@ public final class Console {
                 }
             case Attack:
                 while(true){
-                    Console.Msg("Choose you attack.",false);
-                    Console.Msg("1. Melee",false);
-                    Console.Msg("2. Ranged",false);
-                    Console.Msg("3. Magic",false);
-                    Console.Msg("4. Heal",false);
+                    String Message = "Choose you attack.\n";
+                    Message += "1. Melee\n";
+                    Message += "2. Ranged\n";
+                    Message += "3. Magic\n";
+                    Message += "4. Heal\n";
+                    Console.Msg(Message,false,true);
 
                     String Response = Console.readLine().toLowerCase();
 
@@ -142,9 +165,10 @@ public final class Console {
                     }
                 }
             case Wellcome:
-                Console.Msg("Hello and welcome to the Java Rpg,",false);
-                Console.Msg("also known as, The Tower Of Doom.",false);
-                Console.Msg("Created by Jesper Baunsgaard and Daniel Jensen",true);
+                String Message = "Hello and welcome to the Java Rpg,\n";
+                Message += "also known as, The Tower Of Doom.\n";
+                Message += "Created by Jesper Baunsgaard and Daniel Jensen";
+                Console.Msg(Message,true,true);
                 break;
             default:
                 break;

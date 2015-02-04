@@ -27,7 +27,11 @@ public class Map {
      * @param Path path to map folder
      * @return a map with characters and players added
      */
-    private void LoadWorld(String Path) {
+    private void LoadWorld(String Path){
+        Player player = new Player();
+        LoadWorld(Path, player);
+    }
+    private void LoadWorld(String Path, Player player) {
         File MapsFolder = new File(Path);
         File[] ListOfFiles = MapsFolder.listFiles(new FileFilter() {
             @Override
@@ -52,23 +56,29 @@ public class Map {
 
         Object[][] map = new Object[lines.get(0).length()][lines.size()];
         boolean playerPlaced = false;
+        boolean bossPlaced = false;
         Point playerPlacedHere = new Point(0,0);
-        while (!playerPlaced) {//if player wasn't placed after first attempt to generate map, retry!
+        while (!playerPlaced && !bossPlaced) {//if player & boss wasn't placed after first attempt to generate map, retry!
             for (int i = 0; i < lines.get(0).length(); i++) {
                 for (int j = 0; j < lines.size(); j++) {
                     char c = lines.get(j).charAt(i);
                     Object object = c;
                     if (c == '0') {
                         object = 0;
-                        if (!playerPlaced && random.nextDouble() < 0.1) {//only place a player if it hasnt been placed already
-                            Player p = new Player();
-                            Characters.add(p);
-                            object = p;
+                        if (!playerPlaced && random.nextDouble() < 0.1) {//only place a player if it hasn't been placed already
+                            Characters.add(player);
+                            object = player;
 
                             playerPlacedHere = new Point(i,j);
 
                             playerPlaced = true;
-                        } else if (random.nextDouble() < _enemySpawnChance) {//you cannot place an enemy on the same spot as a player
+                        } else if(!bossPlaced && random.nextDouble() < 0.1) {//only place a boss if it hasn't been placed earlier
+                            Monster boss = CreateRandomMonster();
+                            boss.isBoss = true;
+                            object = boss;
+                            bossPlaced = true;
+
+                        }else if (random.nextDouble() < _enemySpawnChance) {//you cannot place an enemy on the same spot as a player
                             object = CreateRandomMonster();
                         }
                     } else if (c == '1') {
@@ -83,7 +93,7 @@ public class Map {
         for (int i = 0; i < VisibleMap.length; i++) {
             Arrays.fill(VisibleMap[i],0);
         }
-        addToVisibleMap(playerPlacedHere); //make the map the player can see after generating the entire game map
+        addToVisibleMap(playerPlacedHere, true); //make the map the player can see after generating the entire game map
     }
 
     /**
@@ -122,8 +132,9 @@ public class Map {
     /**
      * adds points around a given point to the visible map for the player
      * @param p the point of the center visible point for the player
+     * @param player = if this is true it means that its the player that added a point to the map, false and its the boss
      */
-    public void addToVisibleMap(Point p) {
+    public void addToVisibleMap(Point p, boolean player) {
         Point[] pointsToAdd = new Point[4];
         pointsToAdd[0] = new Point(p.x, p.y+1);
         pointsToAdd[1] = new Point(p.x, p.y-1);
@@ -141,7 +152,11 @@ public class Map {
                 VisibleMap[po.x][po.y] = "#";
             }
         }
-        VisibleMap[p.x][p.y] = "X";
+        if(player) {
+            VisibleMap[p.x][p.y] = "X";
+        }else {
+            VisibleMap[p.x][p.y] = "B";
+        }
     }
 
 
@@ -167,14 +182,14 @@ public class Map {
      * Create a new monster
      * @return The New borne monster
      */
-    private Object CreateRandomMonster() {
+    private Monster CreateRandomMonster() {
         return CreateRandomMonster(1);
     }
     /**
      * Create a new monster with
      * @return The New borne monster
      */
-    private Object CreateRandomMonster(int level) {
+    private Monster CreateRandomMonster(int level) {
         Class<?> r;
         Monster monster = null;
         try {
@@ -192,7 +207,7 @@ public class Map {
             e.printStackTrace();
         }
         Characters.add(monster);
-        return (Object) monster;
+        return monster;
     }
 
     /**

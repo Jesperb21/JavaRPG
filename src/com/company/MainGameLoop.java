@@ -68,6 +68,9 @@ public class MainGameLoop {
                             GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                             GameMap.Map[newPos.x][newPos.y] = charector;
                             move = false;
+                            if(((Monster) charector).isBoss){
+                                GameMap.addToVisibleMap(newPos, false);
+                            }
                         }
                     }
                 }
@@ -100,7 +103,7 @@ public class MainGameLoop {
                             if ((Integer)checkPos == 0){
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                                 GameMap.Map[newPos.x][newPos.y] = charector;
-                                GameMap.addToVisibleMap(newPos);
+                                GameMap.addToVisibleMap(newPos, true);
                                 break;
                             }
                             else if ((Integer)checkPos == 1 ||(Integer)checkPos == -1){
@@ -121,9 +124,9 @@ public class MainGameLoop {
 
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
                                 GameMap.Map[newPos.x][newPos.y] = charector;
-                                GameMap.addToVisibleMap(newPos);
+                                GameMap.addToVisibleMap(newPos, true);
 
-                                GameMap.addNewCharacter(1,charector.Level);//add new character to map
+                                GameMap.addNewCharacter(1, charector.Level);//add new character to map
                                 charector.Heal(100);
                                 break;
                             }

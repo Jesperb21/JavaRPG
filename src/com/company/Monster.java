@@ -2,6 +2,7 @@ package com.company;
 
 
 public abstract class Monster  extends Character{
+    public boolean isBoss = false;
     /**
      * this happens when the monster dies
      * @param Defeater the one who killed the monster, usually the player
@@ -29,6 +30,10 @@ public abstract class Monster  extends Character{
         /*(L * 100 + D) * ?>0(1. 1I)
         */
         Maxhealth = (int)Math.round(((Level * 100) + DefensePower) * (1+ (0.1 * Intelligence)));
+        if(isBoss){
+            Maxhealth *= 1.5;
+        }
+
         Heal(100);
         int response = Console.RandomInt(1,4);
         switch (response){

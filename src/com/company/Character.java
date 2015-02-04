@@ -31,18 +31,10 @@ public abstract class Character implements ICharacter{
      * Character constructor
      */
     Character(){
-        if (this instanceof Player){
-            Maxhealth = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
-        }
-        else {
-            Level = Console.RandomInt(1,10);
-            Maxhealth = 1;
-        }
-
         //Health
         /*(L * 100 + D) * ?>0(1. 1I)
         */
-        //Maxhealth = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
+        Maxhealth = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
         CurrentHealth = Maxhealth;
     }
 

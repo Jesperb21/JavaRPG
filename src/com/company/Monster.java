@@ -10,9 +10,33 @@ public abstract class Monster  extends Character{
     }
 
     public abstract void failAttack();
+
+    public void LvlUp() {
+        Level += 1;
+        //Health
+        /*(L * 100 + D) * ?>0(1. 1I)
+        */
+        Maxhealth = (int)Math.round(((Level * 100) + DefensePower) * (1+ (0.1 * Intelligence)));
+        Heal(100);
+        int response = Console.RandomInt(1,4);
+        switch (response){
+            case 1:
+                Strength++;
+                break;
+            case 2:
+                DefensePower++;
+                break;
+            case 3:
+                Intelligence++;
+                break;
+            case 4:
+                Agility++;
+                break;
+        }
+    }
 }
 enum Monsters {
-    Zombie;
+    Mage,SkeletonArcher,Slime,Zombie;
 
     public static Monsters get(int i) {
         return values()[i];

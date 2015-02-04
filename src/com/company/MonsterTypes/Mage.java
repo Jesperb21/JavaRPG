@@ -3,6 +3,8 @@ package com.company.MonsterTypes;
 import com.company.Console;
 import com.company.Monster;
 
+import java.lang.reflect.Field;
+
 public class Mage extends Monster{
     @Override
     public int Attack() {

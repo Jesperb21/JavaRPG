@@ -110,13 +110,19 @@ public class Map {
             return -1;
         }
     }
-
     private Object addNewRandomMonster() {
+        return addNewRandomMonster(1);
+    }
+    private Object addNewRandomMonster(int level) {
         Class<?> r;
-        Character character = null;
+        Monster monster = null;
         try {
             r = Class.forName("com.company.MonsterTypes." + String.valueOf(Monsters.get(Console.RandomInt(0, Monsters.values().length - 1))));
-            character = (Character) r.newInstance();
+            monster = (Monster) r.newInstance();
+            level =  Console.RandomInt((level<=2)?1:level-2,level+5);
+            while (monster.Level < level){
+                monster.LvlUp();
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -124,18 +130,18 @@ public class Map {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        Characters.add(character);
-        return (Object) character;
+        Characters.add(monster);
+        return (Object) monster;
     }
 
-    public void addNewCharacter(int AmountToAdd) {
+    public void addNewCharacter(int AmountToAdd,int level) {
         while (AmountToAdd > 0) {
             for (int i = 0; i < Map.length && AmountToAdd > 0; i++) {
                 for (int j = 0; j < Map[0].length && AmountToAdd > 0; j++) {
                     Object o = Map[i][j];
                     if ((o instanceof Integer) && ((Integer) o == 0)) {
                         if (Console.RandomDouble(0, 1) > _enemySpawnChance) {
-                            Map[i][j] = addNewRandomMonster();
+                            Map[i][j] = addNewRandomMonster(level);
                             AmountToAdd--;
                         }
                     }

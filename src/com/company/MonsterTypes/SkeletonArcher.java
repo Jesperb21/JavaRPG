@@ -4,6 +4,10 @@ import com.company.Console;
 import com.company.Monster;
 
 public class SkeletonArcher extends Monster{
+    /**
+     * SkeletonArcher do Attack
+     * @return amount of damage
+     */
     @Override
     public int Attack() {
         int Damage = 0;
@@ -24,6 +28,9 @@ public class SkeletonArcher extends Monster{
         return Damage;
     }
 
+    /**
+     * SkeletonArcher failAttack, display message.
+     */
     @Override
     public void failAttack(){
         Console.Msg("The Skeleton lost its arm and couldn't tighten the bow.", false);

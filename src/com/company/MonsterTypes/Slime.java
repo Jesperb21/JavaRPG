@@ -4,6 +4,10 @@ import com.company.Console;
 import com.company.Monster;
 
 public class Slime extends Monster{
+    /**
+     * Slime do Attack
+     * @return amount of damage
+     */
     @Override
     public int Attack() {
         int Damage = 0;
@@ -30,6 +34,9 @@ public class Slime extends Monster{
         return Damage;
     }
 
+    /**
+     * Slime failAttack, display message.
+     */
     @Override
     public void failAttack() {
         Console.Msg("The Slime got stuck on a stick and failed to move.", false);

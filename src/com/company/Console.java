@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.util.Random;
 
 public final class Console {
-    /**
+     /**
      * Clears console "Not working
      */
     public final static void Clear()
@@ -33,7 +33,7 @@ public final class Console {
      * Write Message in console
      * @param msg The message to be shown
      * @param Wait Shall the console Wait for user to respond.
-     */
+    */
     public final static void Msg(String msg, boolean Wait)
     {
         System.out.println(msg);
@@ -96,10 +96,6 @@ public final class Console {
      */
     public final static Object Interact(Dialog display){
         switch(display){
-            case Action:
-            default:
-
-                break;
             case Level:
                 while(true){
                     Console.Msg("Congratulation you a gain a level.",false);
@@ -150,6 +146,8 @@ public final class Console {
                 Console.Msg("also known as, The Tower Of Doom.",false);
                 Console.Msg("Created by Jesper Baunsgaard and Daniel Jensen",true);
                 break;
+            default:
+                break;
         }
         return "";
     }
@@ -170,5 +168,5 @@ enum MoveDir{
  * used in Interact
  */
 enum Dialog {
-    Wellcome,Action,Move,Attack,Level;
+    Wellcome,Move,Attack,Level;
 }

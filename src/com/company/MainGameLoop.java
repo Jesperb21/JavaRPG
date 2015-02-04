@@ -27,7 +27,6 @@ public class MainGameLoop {
      * both monsters and player,
      * combat and move
      */
-
     private static void TurnLoop(){
         for (int i = 0; i < GameMap.Characters.toArray().length; i++) {
             Character charector = GameMap.Characters.get(i);

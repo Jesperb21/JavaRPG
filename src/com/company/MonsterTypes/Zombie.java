@@ -4,6 +4,10 @@ import com.company.Console;
 import com.company.Monster;
 
 public class Zombie extends Monster{
+    /**
+     * Zombie do Attack
+     * @return amount of damage
+     */
     @Override
     public int Attack() {
         int Damage = 0;
@@ -26,6 +30,9 @@ public class Zombie extends Monster{
         return Damage;
     }
 
+    /**
+     * Zombie failAttack, display message.
+     */
     @Override
     public void failAttack(){
         Console.Msg("Zombie fell upon it owns feat and failed the attack", false);

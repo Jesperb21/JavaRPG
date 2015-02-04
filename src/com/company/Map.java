@@ -65,7 +65,7 @@ public class Map {
 
                             playerPlaced = true;
                         } else if (random.nextDouble() < _enemySpawnChance) {//you cannot place an enemy on the same spot as a player
-                            object = addNewRandomMonster();
+                            object = CreateRandomMonster();
                         }
                     } else if (c == '1') {
                         object = 1;
@@ -110,10 +110,19 @@ public class Map {
             return -1;
         }
     }
-    private Object addNewRandomMonster() {
-        return addNewRandomMonster(1);
+
+    /**
+     * Create a new monster
+     * @return The New borne monster
+     */
+    private Object CreateRandomMonster() {
+        return CreateRandomMonster(1);
     }
-    private Object addNewRandomMonster(int level) {
+    /**
+     * Create a new monster with
+     * @return The New borne monster
+     */
+    private Object CreateRandomMonster(int level) {
         Class<?> r;
         Monster monster = null;
         try {
@@ -134,6 +143,11 @@ public class Map {
         return (Object) monster;
     }
 
+    /**
+     * Add a new character to the map
+     * @param AmountToAdd The Amount of new characters / monsters
+     * @param level the Player current level
+     */
     public void addNewCharacter(int AmountToAdd,int level) {
         while (AmountToAdd > 0) {
             for (int i = 0; i < Map.length && AmountToAdd > 0; i++) {
@@ -141,7 +155,7 @@ public class Map {
                     Object o = Map[i][j];
                     if ((o instanceof Integer) && ((Integer) o == 0)) {
                         if (Console.RandomDouble(0, 1) > _enemySpawnChance) {
-                            Map[i][j] = addNewRandomMonster(level);
+                            Map[i][j] = CreateRandomMonster(level);
                             AmountToAdd--;
                         }
                     }

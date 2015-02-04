@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="game">
+    <output-path>$PROJECT_DIR$/out/artifacts/Game</output-path>
+    <root id="root">
+      <element id="directory" name="src">
+        <element id="directory" name="com">
+          <element id="directory" name="company">
+            <element id="directory" name="maps">
+              <element id="dir-copy" path="$PROJECT_DIR$/src/com/company/maps" />
+            </element>
+          </element>
+        </element>
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/company/run.bat" />
+      <element id="archive" name="JavaRPG.jar">
+        <element id="module-output" name="JavaRPG" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/company/run.sh" />
+    </root>
+  </artifact>
+</component>

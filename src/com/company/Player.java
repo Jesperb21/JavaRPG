@@ -25,6 +25,7 @@ public class Player extends Character implements IUser{
                 break;
             case 2:
                 Damage = randomDamage(RangedAtt());
+                ran = Console.RandomInt(1, 2);
                 switch (ran) {
                     case 1:
                         Console.Msg("You threw your sword at the monster and dealt " + Damage + " Damage", false, true);
@@ -36,6 +37,7 @@ public class Player extends Character implements IUser{
                 break;
             case 3:
                 Damage = randomDamage(MagicAtt());
+                ran = Console.RandomInt(1, 2);
                 switch (ran) {
                     case 1:
                         Console.Msg("You threw a fireball and dealt " + Damage + " magic Damage", false, true);

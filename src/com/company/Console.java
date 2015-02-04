@@ -196,7 +196,7 @@ public final class Console {
     public final static void BattleAsciiArt(Player player,Monster monster){
         Console.Msg(" Hp: " + player.CurrentHealth + "      Hp: " + monster.CurrentHealth + "\n",false,false);
         String Message ="";
-        Message += "  Player      " + monster.getClass().getSimpleName() + "\n";
+        Message += "  Player      " + monster.getClass().getSimpleName() + ((monster.isBoss)?" BOSS":"") + "\n";
         if (monster instanceof Slime){
             Message += "             \n";
             Message += "    (}       \n";

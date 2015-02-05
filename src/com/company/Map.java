@@ -74,16 +74,18 @@ public class Map {
         int playersToPlace = player.size();
         boolean bossPlaced = false;
         List<Point> playersPlacedHere = new ArrayList<Point>();
-        while (playersToPlace > 0 && !bossPlaced) {//if player & boss wasn't placed after first attempt to generate map, retry!
+        while (playersToPlace > 0 || !bossPlaced) {//if player & boss wasn't placed after first attempt to generate map, retry!
             playersToPlace = player.size();
             bossPlaced = false;
+            Characters.clear();
+            playersPlacedHere.clear();
             for (int i = 0; i < lines.get(0).length(); i++) {
                 for (int j = 0; j < lines.size(); j++) {
                     char c = lines.get(j).charAt(i);
                     Object object = c;
                     if (c == '0') {
                         object = 0;
-                        if (playersToPlace != 0 && random.nextDouble() < 0.02) {//only place a player if it hasn't been placed already
+                        if (playersToPlace > 0 && random.nextDouble() < 0.02) {//only place a player if it hasn't been placed already
                             Characters.add(player.get(playersToPlace-1));
                             object = player.get(playersToPlace-1);
 

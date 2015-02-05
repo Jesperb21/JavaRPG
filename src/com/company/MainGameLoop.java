@@ -84,6 +84,7 @@ public class MainGameLoop {
                     Object respons = Console.Interact(Dialog.Move);
                     if (respons instanceof MoveDir){
                         Point newPos = null;
+
                         switch ((MoveDir)respons){
                             case Up:
                                 newPos = new Point(ChaPos.x,ChaPos.y-1);
@@ -97,7 +98,15 @@ public class MainGameLoop {
                             case Right:
                                 newPos = new Point(ChaPos.x+1,ChaPos.y);
                                 break;
+                            case cheat:
+                                int cheatLvl = charector.Level + 10;
+                                if (cheatLvl > 100) break;
+                                while (charector.Level != cheatLvl){
+                                    charector.LvlUp();
+                                }
+                                break;
                         }
+                        if (newPos == null) break;
                         Object checkPos = GameMap.fetchAt(newPos);
                         if (checkPos instanceof Integer){
                             if ((Integer)checkPos == 0){

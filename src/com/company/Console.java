@@ -124,7 +124,7 @@ public final class Console {
                     Console.YarhAsciiArt();
                     Message += "Congratulation you a gain a level.\n";
                     Message += "Choose a stat to improve.\n";
-                    Message += "2. Strength\n";
+                    Message += "1. Strength\n";
                     Message += "2. DefensePower\n";
                     Message += "3. Intelligence\n";
                     Message += "4. Agility";
@@ -152,6 +152,7 @@ public final class Console {
                     else if (Response.equals("right")|| Response.equals("r")){
                         return MoveDir.Right;
                     }
+                    else if (Response.equals("level")) return MoveDir.cheat;
                 }
             case Attack:
                 while(true){
@@ -238,7 +239,7 @@ public final class Console {
  * Move directions
  */
 enum MoveDir{
-    Up,Down,Left,Right;
+    Up,Down,Left,Right,cheat;
     public static MoveDir get(int i){
         return values()[i];
     }

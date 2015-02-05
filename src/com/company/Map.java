@@ -18,7 +18,7 @@ public class Map {
      * Constructor
      */
     public Map() {
-        LoadWorld(_defaultMapPath);
+        LoadWorld(_defaultMapPath,3);
     }
 
     /**
@@ -26,8 +26,11 @@ public class Map {
      *
      * @param Path path to map folder
      */
-    private void LoadWorld(String Path){
-        Player player = new Player();
+    private void LoadWorld(String Path, int players){
+        List<Player> player = new ArrayList<Player>();
+        for (int i = 0; i < players; i++) {
+            player.add(new Player());
+        }
         LoadWorld(Path, player);
     }
 
@@ -35,7 +38,7 @@ public class Map {
      * loads the next map while saving the player object
      * @param player the player to save
      */
-    public void LoadNextMap(Player player){
+    public void LoadNextMap(List<Player> player){
         LoadWorld(_defaultMapPath, player);
     }
 
@@ -44,7 +47,7 @@ public class Map {
      * @param Path the folder to load maps from
      * @param player the player object to add to the map
      */
-    private void LoadWorld(String Path, Player player) {
+    private void LoadWorld(String Path, List<Player> player) {
         File MapsFolder = new File(Path);
         File[] ListOfFiles = MapsFolder.listFiles(new FileFilter() {
             @Override
@@ -68,23 +71,25 @@ public class Map {
         }
 
         Object[][] map = new Object[lines.get(0).length()][lines.size()];
-        boolean playerPlaced = false;
+        int playersToPlace = player.size();
         boolean bossPlaced = false;
-        Point playerPlacedHere = new Point(0,0);
-        while (!playerPlaced && !bossPlaced) {//if player & boss wasn't placed after first attempt to generate map, retry!
+        List<Point> playersPlacedHere = new ArrayList<Point>();
+        while (playersToPlace > 0 && !bossPlaced) {//if player & boss wasn't placed after first attempt to generate map, retry!
+            playersToPlace = player.size();
+            bossPlaced = false;
             for (int i = 0; i < lines.get(0).length(); i++) {
                 for (int j = 0; j < lines.size(); j++) {
                     char c = lines.get(j).charAt(i);
                     Object object = c;
                     if (c == '0') {
                         object = 0;
-                        if (!playerPlaced && random.nextDouble() < 0.02) {//only place a player if it hasn't been placed already
-                            Characters.add(player);
-                            object = player;
+                        if (playersToPlace != 0 && random.nextDouble() < 0.02) {//only place a player if it hasn't been placed already
+                            Characters.add(player.get(playersToPlace-1));
+                            object = player.get(playersToPlace-1);
 
-                            playerPlacedHere = new Point(i,j);
+                            playersPlacedHere.add(new Point(i,j));
 
-                            playerPlaced = true;
+                            playersToPlace --;
                         } else if(!bossPlaced && random.nextDouble() < 0.02) {//only place a boss if it hasn't been placed earlier
                             Monster boss = CreateRandomMonster();
                             boss.isBoss = true;
@@ -110,7 +115,9 @@ public class Map {
         for (int i = 0; i < VisibleMap.length; i++) {
             Arrays.fill(VisibleMap[i],0);
         }
-        addToVisibleMap(playerPlacedHere, true); //make the map the player can see after generating the entire game map
+        for(Point p : playersPlacedHere) {
+            addToVisibleMap(p, true); //make the map the player can see after generating the entire game map
+        }
     }
 
     /**

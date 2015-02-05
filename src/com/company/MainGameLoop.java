@@ -1,7 +1,8 @@
 package com.company;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 /**
  * handles the entire game loop
@@ -134,7 +135,9 @@ public class MainGameLoop {
                                     if(((Monster) checkPos).isBoss){
                                         Console.Msg("YUSSAH, you have defeated the boss, time to move to the next floor", true, false);
                                         GameLevel ++;
-                                        GameMap.LoadNextMap((Player)charector);
+                                        List<Player> players = new ArrayList<Player>();
+                                        players.add((Player)charector);
+                                                GameMap.LoadNextMap(players);
                                     }else {
                                         Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(), true, false);
                                     }

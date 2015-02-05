@@ -13,6 +13,12 @@ public abstract class Monster  extends Character{
         int DifLvl = Level - Defeater.Level;
         int exp = 10 + DifLvl;
         if (exp < 1) exp = 1;
+
+        if (this.isBoss){
+            exp *= 3;
+            //do lvl game level
+        }
+
         return exp;
     }
 
@@ -29,12 +35,7 @@ public abstract class Monster  extends Character{
         //Health
         /*(L * 100 + D) * ?>0(1. 1I)
         */
-        Maxhealth = (int)Math.round(((Level * 100) + DefensePower) * (1+ (0.1 * Intelligence)));
-        if(isBoss){
-            Maxhealth *= 1.5;
-        }
 
-        Heal(100);
         int response = Console.RandomInt(1,4);
         switch (response){
             case 1:
@@ -50,6 +51,11 @@ public abstract class Monster  extends Character{
                 Agility++;
                 break;
         }
+        Maxhealth = (int)Math.round(((Level * 100) + DefensePower) * (1+ (0.1 * Intelligence)));
+        if(isBoss){
+            Maxhealth *= 1.5;
+        }
+        Heal(100);
     }
 }
 

@@ -25,12 +25,25 @@ public class Map {
      * loads a random map from the maps folder
      *
      * @param Path path to map folder
-     * @return a map with characters and players added
      */
     private void LoadWorld(String Path){
         Player player = new Player();
         LoadWorld(Path, player);
     }
+
+    /**
+     * loads the next map while saving the player object
+     * @param player the player to save
+     */
+    public void LoadNextMap(Player player){
+        LoadWorld(_defaultMapPath, player);
+    }
+
+    /**
+     * loads a random map from the folder specified with the specific player object
+     * @param Path the folder to load maps from
+     * @param player the player object to add to the map
+     */
     private void LoadWorld(String Path, Player player) {
         File MapsFolder = new File(Path);
         File[] ListOfFiles = MapsFolder.listFiles(new FileFilter() {
@@ -65,16 +78,20 @@ public class Map {
                     Object object = c;
                     if (c == '0') {
                         object = 0;
-                        if (!playerPlaced && random.nextDouble() < 0.1) {//only place a player if it hasn't been placed already
+                        if (!playerPlaced && random.nextDouble() < 0.02) {//only place a player if it hasn't been placed already
                             Characters.add(player);
                             object = player;
 
                             playerPlacedHere = new Point(i,j);
 
                             playerPlaced = true;
-                        } else if(!bossPlaced && random.nextDouble() < 0.1) {//only place a boss if it hasn't been placed earlier
+                        } else if(!bossPlaced && random.nextDouble() < 0.02) {//only place a boss if it hasn't been placed earlier
                             Monster boss = CreateRandomMonster();
                             boss.isBoss = true;
+
+                            while (boss.Level < MainGameLoop.GameLevel * 10){
+                                boss.LvlUp();
+                            }
                             object = boss;
                             bossPlaced = true;
 
@@ -136,25 +153,36 @@ public class Map {
      */
     public void addToVisibleMap(Point p, boolean player) {
         Point[] pointsToAdd = new Point[4];
-        pointsToAdd[0] = new Point(p.x, p.y+1);
-        pointsToAdd[1] = new Point(p.x, p.y-1);
-        pointsToAdd[2] = new Point(p.x+1, p.y);
-        pointsToAdd[3] = new Point(p.x-1, p.y);
-        for (Point po : pointsToAdd) {
-            Object checkPos = fetchAt(po);
-            if (checkPos instanceof Integer) {
-                if ((Integer) checkPos == 0) {
-                    VisibleMap[po.x][po.y] = " ";
-                } else if ((Integer) checkPos == 1) {
-                    VisibleMap[po.x][po.y] = "#";
-                }
-            }else {
-                VisibleMap[po.x][po.y] = "#";
-            }
-        }
+        pointsToAdd[0] = new Point(p.x, p.y + 1);
+        pointsToAdd[1] = new Point(p.x, p.y - 1);
+        pointsToAdd[2] = new Point(p.x + 1, p.y);
+        pointsToAdd[3] = new Point(p.x - 1, p.y);
         if(player) {
+            for (Point po : pointsToAdd) {
+                Object checkPos = fetchAt(po);
+                if (checkPos instanceof Integer) {
+                    if ((Integer) checkPos == 0) {
+                        VisibleMap[po.x][po.y] = " ";
+                    } else if ((Integer) checkPos == 1) {
+                        VisibleMap[po.x][po.y] = "#";
+                    }
+                } else {
+                    if (checkPos instanceof Monster && ((Monster) checkPos).isBoss) {
+                        VisibleMap[p.x][po.y] = "B";
+                    }else {
+                        VisibleMap[po.x][po.y] = " ";
+                    }
+                }
+            }
             VisibleMap[p.x][p.y] = "X";
         }else {
+            for (Point po : pointsToAdd) {
+                if (po.x != -1 && po.y != -1 && po.x < VisibleMap.length && po.y < VisibleMap[0].length) {
+                    if (VisibleMap[po.x][po.y] instanceof String && VisibleMap[po.x][po.y].equals("B")) {
+                        VisibleMap[po.x][po.y] = " ";
+                    }
+                }
+            }
             VisibleMap[p.x][p.y] = "B";
         }
     }

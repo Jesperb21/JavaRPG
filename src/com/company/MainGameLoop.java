@@ -3,8 +3,12 @@ package com.company;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * handles the entire game loop
+ */
 public class MainGameLoop {
     private static Map GameMap;
+    public static int GameLevel = 1;
 
     /**
      * Main Game construcktor.
@@ -126,8 +130,13 @@ public class MainGameLoop {
                             boolean fightResult = CombatLoop((Player)charector, (Monster)checkPos);
                             if (fightResult){
                                 Console.YarhAsciiArt();
-                                Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(),true,false);
-
+                                if(((Monster) checkPos).isBoss){
+                                    Console.Msg("YUSSAH, you have defeated the boss, time to move to the next floor", true, false);
+                                    GameLevel ++;
+                                    GameMap.LoadNextMap((Player)charector);
+                                }else {
+                                    Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(), true, false);
+                                }
                                 ((Player) charector).getExperience(((Monster) checkPos).Die(charector));
                                 GameMap.Characters.remove(checkPos);
 
@@ -140,7 +149,7 @@ public class MainGameLoop {
                                 break;
                             }
                             else {
-                                Console.Msg("Sorry, but you have been defeated.",true,true);
+                                Console.Msg("Sorry, but you have been defeated.", true, true);
                                 charector.Die((Character)checkPos);
                                 //A chance to farm xp
                                 //((Monster) checkPos).Heal(100);

@@ -124,20 +124,25 @@ public class MainGameLoop {
                                 Console.Msg("You have run into a wall.",true,false);
                             }
                         }
-                        else if (checkPos instanceof Monster){
+                        else if (checkPos instanceof Character){
                             Console.Msg("You have found a " + checkPos.getClass().getSimpleName() + " level " +
-                                    (((Monster) checkPos).Level) + " and have entered combat.",true,true);
-                            boolean fightResult = CombatLoop((Player)charector, (Monster)checkPos);
+                                    (((Character) checkPos).Level) + " and have entered combat.",true,true);
+                            boolean fightResult = CombatLoop((Player)charector, (Character)checkPos);
                             if (fightResult){
                                 Console.YarhAsciiArt();
-                                if(((Monster) checkPos).isBoss){
-                                    Console.Msg("YUSSAH, you have defeated the boss, time to move to the next floor", true, false);
-                                    GameLevel ++;
-                                    GameMap.LoadNextMap((Player)charector);
-                                }else {
-                                    Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(), true, false);
+                                if (checkPos instanceof Monster){
+                                    if(((Monster) checkPos).isBoss){
+                                        Console.Msg("YUSSAH, you have defeated the boss, time to move to the next floor", true, false);
+                                        GameLevel ++;
+                                        GameMap.LoadNextMap((Player)charector);
+                                    }else {
+                                        Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(), true, false);
+                                    }
                                 }
-                                ((Player) charector).getExperience(((Monster) checkPos).Die(charector));
+                                else {
+                                    Console.Msg("Hurray, you have defeated a The other player", true, false);
+                                }
+                                ((Player) charector).getExperience(((Character) checkPos).Die(charector));
                                 GameMap.Characters.remove(checkPos);
 
                                 GameMap.Map[ChaPos.x][ChaPos.y] = 0;
@@ -169,7 +174,7 @@ public class MainGameLoop {
      * @param monster the fighting monset
      * @return Returns true if player wins the fight
      */
-    private static boolean CombatLoop(Player player, Monster monster){
+    private static boolean CombatLoop(Player player, Character monster){
         while (player.CurrentHealth > 0){
             Console.BattleAsciiArt(player,monster);
             int damage = player.Attack();

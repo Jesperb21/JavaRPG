@@ -194,10 +194,10 @@ public final class Console {
         Console.Msg(Message,false,true);
     }
 
-    public final static void BattleAsciiArt(Player player,Monster monster){
+    public final static void BattleAsciiArt(Player player,Character monster){
         Console.Msg(" Hp: " + player.CurrentHealth + "      Hp: " + monster.CurrentHealth + "\n",false,false);
         String Message ="";
-        Message += "  Player      " + monster.getClass().getSimpleName() + ((monster.isBoss)?" BOSS":"") + "\n";
+        Message += "  Player  vs  " + monster.getClass().getSimpleName() + ((monster instanceof Monster)?((((Monster)monster).isBoss)?" BOSS":""):"") + "\n";
         if (monster instanceof Slime){
             Message += "             \n";
             Message += "    (}       \n";
@@ -229,6 +229,14 @@ public final class Console {
             Message += "    |        \\  /  (   \n";
             Message += "   / \\        \\/  /|   \n";
             Message += "  /   \\           ||   \n";
+        }
+        else if (monster instanceof Player){
+            Message += "     \n";
+            Message += "    (}           {)   \n";
+            Message += "  \\/|\\__    __/|\\//\n";
+            Message += "    |            |    \n";
+            Message += "   / \\         / \\  \n";
+            Message += "  /   \\       /   \\ \n";
         }
         Console.Msg(Message,false,true);
         Console.Msg(" Hp: " + player.CurrentHealth + "      Hp: " + monster.CurrentHealth +"\n",false,false);

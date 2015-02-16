@@ -13,12 +13,13 @@ public class Map {
     public Object[][] VisibleMap;
     private String _defaultMapPath = "src/com/company/maps/";
     private double _enemySpawnChance = 0.2;
+    private int numberOfPlayers = 3;
 
     /**
      * Constructor
      */
     public Map() {
-        LoadWorld(_defaultMapPath,3);
+        LoadWorld(_defaultMapPath,numberOfPlayers);
     }
 
     /**
@@ -36,10 +37,15 @@ public class Map {
 
     /**
      * loads the next map while saving the player object
-     * @param player the player to save
      */
-    public void LoadNextMap(List<Player> player){
-        LoadWorld(_defaultMapPath, player);
+    public void LoadNextMap(){
+        List<Player> players = new ArrayList<Player>();
+        for (Character Char : Characters){
+            if (Char instanceof Player) {
+                players.add((Player) Char);
+            }
+        }
+        LoadWorld(_defaultMapPath, players);
     }
 
     /**

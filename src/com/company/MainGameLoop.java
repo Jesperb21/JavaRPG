@@ -2,7 +2,6 @@ package com.company;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * handles the entire game loop
@@ -13,10 +12,8 @@ public class MainGameLoop {
 
     /**
      * Main Game construcktor.
-     * Loading / reloading a new game.
-     * @param args Non use.
      */
-    public static void main(String[] args) {
+    public void StartGame() {
         GameMap = new Map();
         Console.Interact(Dialog.Wellcome);
 
@@ -135,9 +132,8 @@ public class MainGameLoop {
                                     if(((Monster) checkPos).isBoss){
                                         Console.Msg("YUSSAH, you have defeated the boss, time to move to the next floor", true, false);
                                         GameLevel ++;
-                                        List<Player> players = new ArrayList<Player>();
-                                        players.add((Player)charector);
-                                                GameMap.LoadNextMap(players);
+                                        GameMap.LoadNextMap();
+                                        continue;
                                     }else {
                                         Console.Msg("Hurray, you have defeated a " + checkPos.getClass().getSimpleName(), true, false);
                                     }

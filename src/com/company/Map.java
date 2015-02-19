@@ -21,7 +21,9 @@ public class Map {
     public Map() {
         LoadWorld(_defaultMapPath,numberOfPlayers);
     }
-
+    public Map(List<Player> players){
+        LoadWorld(_defaultMapPath, players);
+    }
     /**
      * loads a random map from the maps folder
      *
@@ -127,6 +129,23 @@ public class Map {
             addToVisibleMap(p, true); //make the map the player can see after generating the entire game map
         }
     }
+
+    public void saveMap(){
+        Object saveName = Console.Interact(Dialog.save);
+        if(saveName instanceof String){
+            SQLHandler sqlHandler = new SQLHandler();
+            ArrayList<Player> players = new ArrayList<Player>();
+            for (Character character : Characters){
+                if (character instanceof Player){
+                    players.add((Player) character);
+                }
+            }
+            if (!sqlHandler.savePlayer(players, (String) saveName)){
+                Console.Msg("something went wrong", false,false);
+            }
+        }
+    }
+
 
     /**
      * fetches the position of a character

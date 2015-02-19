@@ -1,9 +1,8 @@
 package com.company;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLHandler {
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -12,12 +11,17 @@ public class SQLHandler {
     private static final String user = "root";
     private static final String password = "";//PLEASE GOD, LET THIS BE MY PASSWORD
 
-    public SQLHandler() {
+    public SQLHandler() {/*
         System.out.println("connecting to db");
         //Connection connection = fetchConnection();
         System.out.println("connected");
         System.out.println("adding in a testcharacter");
-        savePlayer(new Player());
+        savePlayer(new Arranew Player(), "testsave");
+        System.out.println("done adding");
+        System.out.println("fetching saves");
+        List<Player> players = loadSave("testsave");
+        System.out.println("done, fetched " + players.size() + "players");
+*/
     }
     private Connection fetchConnection(){
         Connection conn = null;
@@ -32,24 +36,25 @@ public class SQLHandler {
         }
         return conn;
     }
-    private boolean savePlayer(Character character) {
+    boolean savePlayer(List<Player> players, String saveName) {
         try {
-
             Connection conn = fetchConnection();
-            String sql = "INSERT INTO characters (level, currenthealth, strength, agility, intelligence, defensepower, experience)" +
-                    " VALUES (?,?,?,?,?,?,?);";
+            for (Character character : players) {
+                String sql = "INSERT INTO characters (saveName, level, currenthealth, strength, agility, intelligence, defensepower, experience)" +
+                        " VALUES (?,?,?,?,?,?,?,?);";
 
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1, character.Level);
-            preparedStatement.setInt(2, character.CurrentHealth);
-            preparedStatement.setInt(3, character.Strength);
-            preparedStatement.setInt(4, character.Agility);
-            preparedStatement.setInt(5, character.Intelligence);
-            preparedStatement.setInt(6, character.DefensePower);
-            preparedStatement.setInt(7, character.Experience);
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, saveName);
+                preparedStatement.setInt(2, character.Level);
+                preparedStatement.setInt(3, character.CurrentHealth);
+                preparedStatement.setInt(4, character.Strength);
+                preparedStatement.setInt(5, character.Agility);
+                preparedStatement.setInt(6, character.Intelligence);
+                preparedStatement.setInt(7, character.DefensePower);
+                preparedStatement.setInt(8, character.Experience);
 
-            preparedStatement.execute();
-
+                preparedStatement.execute();
+            }
             conn.close();
 
             return true;
@@ -59,18 +64,48 @@ public class SQLHandler {
 
         return false;
     }
-    private boolean loadPlayer(){
+    List<Player> loadSave(String saveName){
+        ArrayList<Player> returnList = new ArrayList<Player>();
+
         try {
             Connection conn = fetchConnection();
-            String sql = "SELECT * FROM characters";
+            String sql = "SELECT COUNT(*) FROM characters WHERE saveName=?";
 
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, saveName);
 
+            ResultSet result = preparedStatement.executeQuery();
+
+            int amountToFeetch=0;
+            while (result.next()){
+                amountToFeetch = result.getInt("COUNT(*)");
+            }
+            if (amountToFeetch > 0){
+                sql = "SELECT level, currenthealth, strength, agility, intelligence, defensepower, experience FROM characters WHERE saveName=?";
+                preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, saveName);
+
+                result = preparedStatement.executeQuery();
+                while (result.next()){
+                    Player player = new Player();
+                    player.Level = result.getInt("level");
+                    player.Strength = result.getInt("strength");
+                    player.Agility = result.getInt("agility");
+                    player.Intelligence = result.getInt("intelligence");
+                    player.DefensePower = result.getInt("defensepower");
+                    player.Experience = result.getInt("experience");
+                    player.CurrentHealth = result.getInt("currenthealth");
+
+                    returnList.add(player);
+                }
+            }
 
 
             conn.close();
+            return  returnList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 }

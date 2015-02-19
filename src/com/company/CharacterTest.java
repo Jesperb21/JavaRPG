@@ -33,7 +33,7 @@ public class CharacterTest {
     @Test
     public void testTakeDamage() {
         character.TakeDamage(30);
-        assertNotSame("it didn't take damage, oh no", character.Maxhealth, character.CurrentHealth);
+        assertNotSame("it didn't take damage, oh no", character.Maxhealth(), character.CurrentHealth);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class CharacterTest {
     public void testHeal(){
         character.CurrentHealth = 1;
         character.Heal(100);
-        assertSame("character didnt heal properly",character.Maxhealth,character.CurrentHealth);
+        assertSame("character didnt heal properly",character.Maxhealth(),character.CurrentHealth);
     }
 
     @Test

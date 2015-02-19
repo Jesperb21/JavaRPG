@@ -3,6 +3,15 @@ package com.company;
 
 public abstract class Monster  extends Character{
     public boolean isBoss = false;
+
+    @Override
+    public int Maxhealth(){
+        int hp = super.Maxhealth();
+        if(isBoss){
+            hp *= 1.5;
+        }
+        return hp;
+    }
     /**
      * this happens when the monster dies
      * @param Defeater the one who killed the monster, usually the player
@@ -50,10 +59,6 @@ public abstract class Monster  extends Character{
             case 4:
                 Agility++;
                 break;
-        }
-        Maxhealth = (int)Math.round(((Level * 100) + DefensePower) * (1+ (0.1 * Intelligence)));
-        if(isBoss){
-            Maxhealth *= 1.5;
         }
         Heal(100);
     }

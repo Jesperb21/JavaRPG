@@ -1,7 +1,7 @@
 package com.company;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * handles the entire game loop
@@ -14,8 +14,25 @@ public class MainGameLoop {
      * Main Game construcktor.
      */
     public void StartGame() {
-        GameMap = new Map();
         Console.Interact(Dialog.Wellcome);
+
+        boolean repeatQuestion = true;
+        while (repeatQuestion) {
+            Console.Msg("Load a game(Y/N)?", false, false);
+            String response = Console.readLine();
+            if (response instanceof String) {
+                if (response.equals("y")){
+                    String saveName = (String) Console.Interact(Dialog.load);
+                    SQLHandler sqlHandler = new SQLHandler();
+
+                    GameMap = new Map(sqlHandler.loadSave(saveName));
+                    repeatQuestion = false;
+                }else if (response.equals("n")){
+                    GameMap = new Map();
+                    repeatQuestion = false;
+                }
+            }
+        }
 
         //The game loop
         while (true){
@@ -106,6 +123,9 @@ public class MainGameLoop {
                                 while (charector.Level != cheatLvl){
                                     charector.LvlUp();
                                 }
+                                break;
+                            case save:
+                                GameMap.saveMap();
                                 break;
                         }
                         if (newPos == null) break;

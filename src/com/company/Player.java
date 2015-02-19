@@ -4,12 +4,12 @@ public class Player extends Character implements IUser{
     //region ICharacter
     @Override
     public int Attack() {
-        Object UserChoose= null;
+        Object UserChoose;
         do {
             UserChoose = Console.Interact(Dialog.Attack);
         }while (!(UserChoose instanceof Integer) && ((Integer)UserChoose < 1 || (Integer)UserChoose > 4));
         int Damage = 0;
-        int ran = 0;
+        int ran;
         switch ((Integer)UserChoose){
             case 1:
                 Damage = randomDamage(MeleeAtt());
@@ -74,10 +74,7 @@ public class Player extends Character implements IUser{
     @Override
     public void LvlUp() {
         Level += 1;
-        //Health
-        /*(L * 100 + D) * ?>0(1. 1I)
-        */
-        Maxhealth = (int)Math.round(((Level * 100) + DefensePower) * (1+ (0.1 * Intelligence)));
+
         Heal(100);
         int response = (Integer)Console.Interact(Dialog.Level);
         switch (response){

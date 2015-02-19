@@ -136,6 +136,24 @@ public final class Console {
                         return Integer.parseInt(Response);
                     }
                 }
+            case save:
+                while (true){
+                    Console.Msg("----SAVE----", false, false);
+                    Console.Msg("name the save instance(you will need the name when you load): ",false,false);
+                    String response = Console.readLine();
+                    if (response instanceof String) {
+                        return response;
+                    }
+                }
+            case load:
+                while (true){
+                    Msg("----LOAD----", false,false);
+                    Msg("name of the save isntance", false,false);
+                    String response = Console.readLine();
+                    if (response instanceof  String){
+                        return response;
+                    }
+                }
             case Move:
                 while(true){
                     Console.Msg("Where do you want to go.",false,false);
@@ -152,7 +170,9 @@ public final class Console {
                     else if (Response.equals("right")|| Response.equals("r")){
                         return MoveDir.Right;
                     }
-                    else if (Response.equals("level")) return MoveDir.cheat;
+                    else if (Response.equals("level")) {
+                        return MoveDir.cheat;
+                    }else if(Response.equals("Save") || Response.equals("s")) return MoveDir.save;
                 }
             case Attack:
                 while(true){
@@ -173,8 +193,7 @@ public final class Console {
                 Message += "Hello and welcome to the Java Rpg,\n";
                 Message += "also known as, The Tower Of Doom.\n";
                 Message += "Created by Jesper Baunsgaard and Daniel Jensen";
-
-                Console.Msg(Message,true,true);
+                Msg(Message, true, true);
                 break;
             default:
                 break;
@@ -247,7 +266,7 @@ public final class Console {
  * Move directions
  */
 enum MoveDir{
-    Up,Down,Left,Right,cheat;
+    Up,Down,Left,Right,cheat, save;
     public static MoveDir get(int i){
         return values()[i];
     }
@@ -258,5 +277,5 @@ enum MoveDir{
  * used in Interact
  */
 enum Dialog {
-    Wellcome,Move,Attack,Level;
+    Wellcome,Move,Attack,Level, save, load;
 }

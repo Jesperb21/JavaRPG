@@ -1,8 +1,13 @@
 package com.company;
 
 public abstract class Character implements ICharacter{
-    public int Maxhealth = 100;
-    public int CurrentHealth = Maxhealth;
+    //Health
+    /*(L * 100 + D) * ?>0(1. 1I)
+    */
+    public int Maxhealth(){
+        return (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
+    }
+    public int CurrentHealth;
 
     /**
      * Calculate Damage on character
@@ -34,8 +39,7 @@ public abstract class Character implements ICharacter{
         //Health
         /*(L * 100 + D) * ?>0(1. 1I)
         */
-        Maxhealth = (int)Math.round((Level * 100 + DefensePower) * (1 + (0.1 * Intelligence)));
-        CurrentHealth = Maxhealth;
+        CurrentHealth = Maxhealth();
     }
 
     public int RangedAtt() {
@@ -68,8 +72,8 @@ public abstract class Character implements ICharacter{
      */
     public void Heal(int Healvalue){
         if (CurrentHealth < 0) CurrentHealth = 0;
-        CurrentHealth += (Maxhealth/100)*Healvalue;
-        if (CurrentHealth > Maxhealth) CurrentHealth = Maxhealth;
+        CurrentHealth += (Maxhealth()/100)*Healvalue;
+        if (CurrentHealth > Maxhealth()) CurrentHealth = Maxhealth();
     }
     public int randomDamage(int dmg){
         return (int)Console.RandomDouble((dmg*0.75), dmg);

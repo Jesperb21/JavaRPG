@@ -1,0 +1,49 @@
+<mobs>
+    <mob id="1" name="Steve">
+        <allowedAttacks>
+			<melee>
+				<messages>
+					<msg>slabbed you with a piece of flint</msg>
+					<msg>slabbed you with a piece of flint</msg>
+				</messages>
+			</melee>
+			<magic>
+				<messages>
+					<msg>slabbed you with a fireball</msg>
+					<msg>slabbed you with a lightning bolt</msg>
+					<msg>slabbed you with a game demo</msg>
+				</messages>
+			</magic>
+		</allowedAttacks>
+		<failAttack failChance="50">
+			<messages>
+				<msg>fell</msg>
+				<msg>forgot what he was doing</msg>
+			</messages>
+		</failAttack>
+    </mob>
+	<mob id="2" name="Forest">
+        <allowedAttacks>
+			<melee>
+				<messages>
+					<msg>slabbed you with a stick</msg>
+					<msg>slabbed you with a piece of flint</msg>
+					<msg>slabbed you with a piece of flint</msg>
+				</messages>
+			</melee>
+			<magic>
+				<messages>
+					<msg>slabbed you with a fireball</msg>
+					<msg>slabbed you with a lightning bolt</msg>
+					<msg>slabbed you with a game demo</msg>
+				</messages>
+			</magic>
+		</allowedAttacks>
+		<failAttack failChance="50">
+			<messages>
+				<msg>attempted to slab you with a stick, but accidentally dropped it</msg>
+				<msg>was busy fighting a forest fire</msg>
+			</messages>
+		</failAttack>
+    </mob>
+</mobs>

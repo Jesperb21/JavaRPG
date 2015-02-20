@@ -12,7 +12,7 @@ public class Map {
     public Object[][] Map;
     public Object[][] VisibleMap;
     private String _defaultMapPath = "src/com/company/maps/";
-    private double _enemySpawnChance = 0.2;
+    private double _enemySpawnChance = 0.5;
     private int numberOfPlayers = 3;
 
     /**
@@ -255,7 +255,8 @@ public class Map {
         Class<?> r;
         Monster monster = null;
         try {
-            r = Class.forName("com.company.MonsterTypes." + String.valueOf(Monsters.get(Console.RandomInt(0, Monsters.values().length - 1))));
+            //r = Class.forName("com.company.MonsterTypes." + String.valueOf(Monsters.get(Console.RandomInt(0, Monsters.values().length - 1))));
+            r = Class.forName("com.company.MonsterTypes.xmlMob");
             monster = (Monster) r.newInstance();
             level =  Console.RandomInt((level<=2)?1:level-2,level+5);
             while (monster.Level < level){
